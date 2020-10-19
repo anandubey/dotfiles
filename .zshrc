@@ -1,4 +1,5 @@
-pfetch
+neofetch
+
 
 # Enable colors and change prompt:
 autoload -U colors && colors	# Load colors
@@ -30,5 +31,5 @@ _comp_options+=(globdots)		# Include hidden files.
 
 
 # Load syntax highlighting; should be last.
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh 2>/dev/null
-source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+source /usr/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
