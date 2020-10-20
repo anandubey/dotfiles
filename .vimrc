@@ -20,7 +20,8 @@ set noswapfile
 set nobackup
 set undodir=~/.vim/undodir
 set undofile
-
+set incsearch
+set clipboard+=unnamedplus
 
 " Some basics:
 	nnoremap c "_c
