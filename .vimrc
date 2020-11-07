@@ -1,13 +1,5 @@
 let mapleader =","
 
-if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME}/vim/autoload/plug.vim"'))
-	echo "Downloading junegunn/vim-plug to manage plugins..."
-	silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME}/vim/autoload/
-	silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME}/vim/autoload/plug.vim
-	autocmd VimEnter * PlugInstall
-endif
-
-
 set noerrorbells
 set tabstop=4 softtabstop=4
 set shiftwidth=4
