@@ -1,0 +1,4 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =2
+let g:netrw_dirhist_2='/home/p5ypher/Documents/projects/nodeProjects/cs404/server'
+let g:netrw_dirhist_1='/home/p5ypher/Documents/projects/nodeProjects/cs404'
