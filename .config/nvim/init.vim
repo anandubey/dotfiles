@@ -8,6 +8,7 @@ set nowrap
 set smartcase
 set noswapfile
 set nobackup
+set nowritebackup
 set undodir=~/.config/nvim/undodir
 set undofile
 set incsearch
@@ -16,13 +17,13 @@ set clipboard+=unnamedplus
 nnoremap c "_c
 filetype plugin on
 syntax on
-set encoding=utf-8
 
 call plug#begin('~/.config/nvim/plugged')
 
 """""" Color scheme
-Plug 'morhetz/gruvbox'
+"Plug 'morhetz/gruvbox'
 " Plug 'tomasr/molokai'
+Plug 'lifepillar/vim-gruvbox8'
 
 """""" airline
 Plug 'vim-airline/vim-airline'
@@ -33,7 +34,14 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
-colorscheme gruvbox
+set background=dark
+colorscheme gruvbox8
+
+let g:gruvbox_filetype_hi_groups = 1
+let g:gruvbox_italics = 1
+let g:gruvbox_italicize_strings = 1
+let g:gruvbox_transp_bg = 1
+
 
 
 " Enable airline
@@ -84,3 +92,74 @@ let g:airline_powerline_fonts=1
     if &diff
         highlight! link DiffText MatchParen
     endif
+
+
+
+
+
+" Enable Signcolumn
+    if has("patch-8.1.1564")
+    " Recently vim can merge signcolumn and number column into one
+        set signcolumn=number
+    else
+        set signcolumn=yes
+    endif
+
+
+" Tab to completion
+    inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+    function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+
+
+" Use <c-space> to trigger completion.
+    if has('nvim')
+        inoremap <silent><expr> <c-space> coc#refresh()
+    else
+        inoremap <silent><expr> <c-@> coc#refresh()
+    endif
+
+    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+        \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
