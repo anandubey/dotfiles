@@ -2,7 +2,7 @@
 
 # Colorize commands when possible.
 alias \
-	ls="exa --color=auto --group-directories-first" \
+	ls="exa --color=always --group-directories-first --icons" \
 	grep="grep --color=auto" \
 	diff="diff --color=auto" \
     v="nvim" \
