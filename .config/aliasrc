@@ -1,11 +1,37 @@
 #!/bin/sh
 
+
+#             ______            __
+#      ____  / ______  ______  / /_  ___  _____
+#     / __ \/___ \/ / / / __ \/ __ \/ _ \/ ___/
+#    / /_/ ____/ / /_/ / /_/ / / / /  __/ /
+#   / .___/_____/\__, / .___/_/ /_/\___/_/
+#  /_/          /____/_/
+
+
 # Colorize commands when possible.
-alias \
-	ls="exa --color=always --group-directories-first --icons" \
-	grep="grep --color=auto" \
-	diff="diff --color=auto" \
-    v="nvim" \
-    nv="nvim" \
-    cat="bat" \
-    vim="nvim"
+alias ls="exa -al --color=always --group-directories-first --icons"
+alias grep="grep --color=auto"
+alias diff="diff --color=auto"
+
+# Bind vim to neovim
+alias vim="nvim"
+alias v="nvim"
+alias sv="sudo nvim"
+alias nv="nvim"
+alias snv="sudo nvim"
+
+# Replace commands with better alternatives
+alias cat="bat --style header --style rules --style snip --style changes --style header"
+alias la="exa -a --color=always --group-directories-first --icons"
+alias ll="exa -l --color=always --group-directories-first --icons"
+alias l.="exa -a | egrep '^\.'"
+
+# Get Clutter-free Hardware info
+alias hw="hwinfo --short"
+
+# Cleanup orphaned packages
+alias cleanup="sudo pacman -Rns (pacman -Qtdq)"
+
+#Get the error messages from journalctl
+alias jctl="journalctl -p 3 -xb"

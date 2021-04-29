@@ -1,8 +1,11 @@
-# Configuration for Alacritty, the GPU enhanced terminal emulator.
+#             ______            __
+#      ____  / ______  ______  / /_  ___  _____
+#     / __ \/___ \/ / / / __ \/ __ \/ _ \/ ___/
+#    / /_/ ____/ / /_/ / /_/ / / / /  __/ /
+#   / .___/_____/\__, / .___/_/ /_/\___/_/
+#  /_/          /____/_/
 
-# Any items in the `env` entry below will be added as
-# environment variables. Some entries may override variables
-# set by alacritty itself.
+
 env:
   # TERM variable
   #

@@ -1,5 +1,12 @@
+#             ______            __
+#      ____  / ______  ______  / /_  ___  _____
+#     / __ \/___ \/ / / / __ \/ __ \/ _ \/ ___/
+#    / /_/ ____/ / /_/ / /_/ / / / /  __/ /
+#   / .___/_____/\__, / .___/_/ /_/\___/_/
+#  /_/          /____/_/
+
+
 # Flutter
 export PATH="$PATH:/usr/local/src/flutter/bin"
 
-# Chrome executable path for flutter
-export CHROME_EXECUTABLE=/bin/brave
+SSH_ENV="$HOME/.ssh/id_ed"
