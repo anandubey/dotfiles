@@ -14,12 +14,23 @@ alias ls="exa -al --color=always --group-directories-first --icons"
 alias grep="grep --color=auto"
 alias diff="diff --color=auto"
 
+# Jump to directories
+alias cses="cd $HOME/Documents/compeCoding/cses"
+alias hrank="cd $HOME/Documents/compeCoding/hackerRank"
+alias lcode="cd $HOME/Documents/compeCoding/leetcode"
+alias chef="cd $HOME/Documents/compeCoding/codechef"
+
+# Open eBooks
+alias rcpp="okular Documents/eBooks/primer.pdf > /dev/null 2>&1 & disown"
+alias ros="okular Documents/eBooks/CSE-Core/OS\ Concepts\ Galvin.pdf > /dev/null 2>&1 & disown"
+
 # Bind vim to neovim
 alias vim="nvim"
 alias v="nvim"
 alias sv="sudo nvim"
 alias nv="nvim"
 alias snv="sudo nvim"
+alias gxx="g++ -Wall -std=c++17"
 
 # Replace commands with better alternatives
 alias cat="bat --style header --style rules --style snip --style changes --style header"

@@ -4,13 +4,15 @@
 "    / /_/ ____/ / /_/ / /_/ / / / /  __/ /
 "   / .___/_____/\__, / .___/_/ /_/\___/_/
 "  /_/          /____/_/
-
+"
 
 
 set noerrorbells
 set tabstop=4 softtabstop=4
 set shiftwidth=4
 set expandtab
+set hidden
+set nohlsearch
 set smartindent
 set number relativenumber
 set nowrap
@@ -21,6 +23,9 @@ set nowritebackup
 set undodir=~/.config/nvim/undodir
 set undofile
 set incsearch
+set scrolloff=8
+set colorcolumn=80
+set cmdheight=2
 set clipboard+=unnamedplus
 
 nnoremap c "_c
@@ -37,6 +42,8 @@ Plug 'lifepillar/vim-gruvbox8'
 """""" airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+
 
 """""" C++ autocompletion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -101,8 +108,6 @@ let g:airline_powerline_fonts=1
     if &diff
         highlight! link DiffText MatchParen
     endif
-
-
 
 
 
