@@ -42,12 +42,8 @@ active-light = #313435
 
 
 [global/wm]
-; Adjust the _NET_WM_STRUT_PARTIAL top value
-;   Used for top aligned bars
 margin-bottom = 0
 
-; Adjust the _NET_WM_STRUT_PARTIAL bottom value
-;   Used for bottom aligned bars
 margin-top = 0
 
 
@@ -56,6 +52,7 @@ margin-top = 0
 [bar/dark]
 monitor = eDP-1
 width =  100%
+tray-positon = right
 height = 22
 padding-left =1
 padding-right =0
@@ -69,12 +66,12 @@ border-bottom-color = ${colors.background}
 
 line-size = 2
 
-;modules-right =      temperature   alsa battery round-left cpu round-right updates wlan mem xbacklight round-left time round-right  powermenu
+;modules-right =      temperature   volume battery round-left cpu round-right updates wlan memory xbacklight round-left time round-right  powermenu
 
 
-modules-left = bspwm
-modules-center =  title
-modules-right =      mem  updates network battery time powermenu
+modules-left = round-left bspwm round-right
+modules-center =  round-left title round-right
+modules-right = memory volume updates network battery round-left time round-right powermenu
 
 
 
@@ -83,6 +80,36 @@ font-0 = JetBrainsMono Nerd Font:style=Bold:pixelsize=12;3
 font-1 = JetBrainsMono Nerd Font:size=13;3
 font-2 = Material Design Icons:style=Bold:size=12;3
 font-3 = unifont:fontformat=truetype:size=12:antialias=true;
+tray-position = right
+
+; If true, the bar will not shift its
+; contents when the tray changes
+tray-detached = false
+
+; Tray icon max size
+tray-maxsize = 16
+
+; DEPRECATED! Since 3.3.0 the tray always uses pseudo-transparency
+; Enable pseudo transparency
+; Will automatically be enabled if a fully transparent
+; background color is defined using `tray-background`
+tray-transparent = false
+
+; Background color for the tray container
+; ARGB color (e.g. #f00, #ff992a, #ddff1023)
+; By default the tray container will use the bar
+; background color.
+tray-background = ${root.background}
+
+; Tray offset defined as pixel value (e.g. 35) or percentage (e.g. 50%)
+tray-offset-x = 0
+tray-offset-y = 0
+
+; Pad the sides of each tray icon
+tray-padding = 0
+
+; Scale factor for tray clients
+tray-scale = 1.0
 
 
 
@@ -106,20 +133,20 @@ enable-click = true
 enable-scroll = true
 reverse-scroll = false
 format = <label-state>
-ws-icon-0 = 1;%{F#F9DE8F}
-ws-icon-1 = 2;%{F#ff9b93}
-ws-icon-2 = 3;%{F#95e1d3}
-ws-icon-3 = 4;%{F#81A1C1}
-ws-icon-4 = 5;%{F#A3BE8C}
-label-separator = ""
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+
+label-separator = " "
 label-separator-background = #2b2f37
-label-focused =  %icon%
-label-focused-foreground = ${colors.foreground}
-label-focused-underline =  #565c64
+label-focused = %icon%
+label-focused-foreground = #F9DE8F
+;label-focused-underline =  #565c64
 label-focused-padding = 1
 label-focused-background = #2b2f37
-label-occupied =  %icon%
-label-occupied-foreground = #646870
+label-occupied = %icon%
+label-occupied-foreground = ${colors.foreground}
 label-occupied-background = #2b2f37
 label-occupied-padding = 1
 label-empty = %icon%
@@ -132,37 +159,29 @@ label-urgent-foreground = #88C0D0
 label-urgent-background = #2b2f37
 label-urgent-padding = 1
 
-[module/alsa]
+[module/volume]
 type = internal/alsa
-format-volume = <label-volume> <bar-volume>
-label-volume = " "
+
+master-soundcard = default
+speaker-soundcard = default
+headphone-soundcard = default
+
+format-volume = <label-volume>
+format-volume-padding = 1
+format-muted = <label-muted>
+format-volume-prefix = ""
+
+label-volume = %percentage%%
 label-volume-foreground = ${colors.foreground}
+label-volume-padding = 1
 
 format-muted-foreground = ${colors.foreground}
-label-muted = 󰚙
+label-muted = " 󰚙 "
+label-muted-foreground = #ffffff
 
 format-muted-padding = 1
 format-muted-background = #2b2f37
 
-bar-volume-width = 10
-bar-volume-foreground-0 = #61afef
-bar-volume-foreground-1 = #61afef
-bar-volume-foreground-2 = #61afef
-bar-volume-foreground-3 = #61afef
-bar-volume-foreground-4 = #61afef
-bar-volume-foreground-5 = #61afef
-bar-volume-foreground-6 = #61afef
-bar-volume-gradient = false
-bar-volume-indicator =
-bar-volume-indicator-foreground = #61afef
-bar-volume-indicator-font = 2
-bar-volume-fill = ━
-bar-volume-fill-foreground = #61afef
-bar-volume-fill-font = 2
-bar-volume-empty = ━
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground}
-format-volume-padding = 1
 
 [module/time]
 type = internal/date
@@ -175,7 +194,7 @@ time-alt = %{F#61afef}󰃭 %a, %b %d%{F-}
 label = %date%%time%
 label-padding-right = 1
 
-[module/mem]
+[module/memory]
 type = custom/script
 exec = free -m | sed -n 's/^Mem:\s\+[0-9]\+\s\+\([0-9]\+\)\s.\+/\1/p'
 format = <label>
@@ -209,11 +228,12 @@ accumulate-stats = true
 unknown-as-up = true
 format-connected = <label-connected>
 format-disconnected = <label-disconnected>
-format-disconnected-prefix = 
-label-connected = ""
+format-disconnected-prefix = 
+label-connected = "%{A1:networkmanager_dmenu &:} %downspeed%%{A}"
+label-connected-alt = "%local_ip%"
 label-connected-padding = 1
 label-connected-foreground = #A3BE8C
-label-disconnected = ""
+label-disconnected = ""
 
 
 
@@ -262,15 +282,6 @@ animation-charging-framerate = 910
 format-discharging-padding = 1
 
 
-[module/volume]
-type = custom/script
-exec = amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]'
-format = <label>
-internal = 5.0
-label = %output%
-label-foreground = #BF616A
-label-padding = 1
-
 [module/xbacklight]
 type = internal/xbacklight
 format = <label>
@@ -294,14 +305,8 @@ format-foreground = #989cff
 
 [module/title]
 type = internal/xwindow
-
-; Available tags:
-;   <label> (default)
 format = <label>
 format-prefix = 
-
-; Available tokens:
-;   %title%
-; Default: %title%
 label = " %title%"
+label-background = #2b2f37
 label-maxlen = 30
