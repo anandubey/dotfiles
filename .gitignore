@@ -1,0 +1,3 @@
+./.config/nvim/plugged/*
+./.config/nvim/undodir/*
+./.config/qtile/__pycache__/*
