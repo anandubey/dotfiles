@@ -35,9 +35,8 @@ syntax on
 call plug#begin('~/.config/nvim/plugged')
 
 """""" Color scheme
-"Plug 'morhetz/gruvbox'
-" Plug 'tomasr/molokai'
 Plug 'lifepillar/vim-gruvbox8'
+Plug 'joshdick/onedark.vim'
 
 """""" airline
 Plug 'vim-airline/vim-airline'
@@ -50,8 +49,18 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
-set background=dark
+if (empty($TMUX))
+  if (has("nvim"))
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+endif
+
 colorscheme gruvbox8
+
+"let g:onedark_termcolors=256
 
 let g:gruvbox_filetype_hi_groups = 1
 let g:gruvbox_italics = 1

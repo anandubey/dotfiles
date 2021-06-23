@@ -7,22 +7,23 @@ function run {
   fi
 }
 
+nvidia-settings --assign CurrentMetaMode="HDMI-0: nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On, TripleBuffer = on, AllowIndirectGLXProtocol = off }, eDP-1-1: nvidia-auto-select +1920+0 { ForceFullCompositionPipeline = On, TripleBuffer = on, AllowIndirectGLXProtocol = off }" &
 
-feh --bg-fill /usr/share/backgrounds/Aurora_Dragon.png &
+feh --bg-fill $HOME/Pictures/wallpapers/ghost.jpg &
 #starting utility applications at boot time
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-#run nm-applet &
-#run pamac-tray &
+run nm-applet &
+run pamac-tray &
 numlockx on &
+#run xfce4-power-manager &
 #blueman-applet &
 #flameshot &
 #picom --config $HOME/.config/picom/picom.conf &
-picom --config .config/picom/picom-blur.conf --experimental-backends &
+picom &
 #/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 dunst &
 
 #starting user applications at boot time
-#run volumeicon &
 #run cbatticon &
 #run discord &
 #nitrogen --random --set-zoom-fill &

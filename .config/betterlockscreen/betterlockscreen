@@ -1,0 +1,15 @@
+insidecolor=00000000
+ringcolor=f2f2f2ff
+keyhlcolor=2F9B85ff
+bshlcolor=B6061Dff
+separatorcolor=00000000
+insidevercolor=00000000
+insidewrongcolor=B6061Dff
+ringvercolor=f2f2f2ff
+ringwrongcolor=f2f2f2ff
+verifcolor=f2f2f2ff
+timecolor=2F9B85ff
+datecolor=f2f2f2ff
+loginbox=141A1B66
+font="noto-sans-medium"
+locktext='Type password to unlock...'
