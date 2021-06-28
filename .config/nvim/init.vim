@@ -27,7 +27,7 @@ set scrolloff=8
 set colorcolumn=80
 set cmdheight=2
 set clipboard+=unnamedplus
-
+set cursorline
 nnoremap c "_c
 filetype plugin on
 syntax on
@@ -35,9 +35,10 @@ syntax on
 call plug#begin('~/.config/nvim/plugged')
 
 """""" Color scheme
-Plug 'lifepillar/vim-gruvbox8'
-Plug 'joshdick/onedark.vim'
+"Plug 'lifepillar/vim-gruvbox8'
+"Plug 'joshdick/onedark.vim'
 
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
 """""" airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -58,19 +59,20 @@ if (empty($TMUX))
   endif
 endif
 
-colorscheme gruvbox8
-
+colorscheme onehalfdark
+set t_Co=256
 "let g:onedark_termcolors=256
 
-let g:gruvbox_filetype_hi_groups = 1
-let g:gruvbox_italics = 1
-let g:gruvbox_italicize_strings = 1
-let g:gruvbox_transp_bg = 1
+"let g:gruvbox_filetype_hi_groups = 1
+"let g:gruvbox_italics = 1
+"let g:gruvbox_italicize_strings = 1
+"let g:gruvbox_transp_bg = 1
 
 
 
 " Enable airline
-let g:airline_powerline_fonts=1
+let g:airline_theme="onehalfdark"
+"let g:airline_powerline_fonts=1
 
 " Enable autocompletion:
     set wildmode=longest,list,full
