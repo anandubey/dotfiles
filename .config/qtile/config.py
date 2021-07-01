@@ -38,7 +38,7 @@ keys = [
     Key([mod], "q", lazy.window.kill()),
     Key([mod], "t", lazy.spawn('alacritty')),
     Key([mod], "v", lazy.spawn('pavucontrol')),
-    Key([mod], "b", lazy.spawn('google-chrome-stable')),
+    Key([mod], "b", lazy.spawn('firefox')),
     Key([mod], "Escape", lazy.spawn('betterlockscreen -l dimblur')),
     Key([mod], "Return", lazy.spawn('alacritty')),
     Key([mod], "KP_Enter", lazy.spawn('alacritty')),
@@ -60,9 +60,9 @@ keys = [
     Key(["mod1", "control"], "c", lazy.spawn('catfish')),
     Key(["mod1", "control"], "i", lazy.spawn('nitrogen')),
     Key(["mod1", "control"], "o", lazy.spawn(HOME + '/.config/qtile/scripts/picom-toggle.sh')),
-    Key(["mod1", "control"], "t", lazy.spawn('termite')),
+    Key(["mod1", "control"], "t", lazy.spawn('kitty')),
     Key(["mod1", "control"], "u", lazy.spawn('pavucontrol')),
-    Key(["mod1", "control"], "Return", lazy.spawn('termite')),
+    Key(["mod1", "control"], "Return", lazy.spawn('kitty')),
 
 # ALT + ... KEYS
 
@@ -81,8 +81,8 @@ keys = [
 
 # SCREENSHOTS
 
-    Key([], "Print", lazy.spawn('flameshot full -p ' + HOME + '/Pictures')),
-    Key([mod2], "Print", lazy.spawn('flameshot full -p ' + HOME + '/Pictures')),
+    Key([], "Print", lazy.spawn('flameshot full -p ' + HOME + '/Pictures/screenshot')),
+    Key([mod2], "Print", lazy.spawn('flameshot full -p ' + HOME + '/Pictures/screenshot')),
 #    Key([mod2, "shift"], "Print", lazy.spawn('gnome-screenshot -i')),
 
 # MULTIMEDIA KEYS
@@ -220,7 +220,7 @@ group_labels = ["諭", "", "", "", "",]
 #group_labels = ["Web", "Edit/chat", "Image", "Gimp", "Meld", "Video", "Vb", "Files", "Mail", "Music",]
 
 #group_layouts = ["monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "treetab", "floating",]
-group_layouts = ["monadwide", "monadtall", "monadtall", "monadtall", "floating",]
+group_layouts = ["monadtall", "monadtall", "monadtall", "monadtall", "floating",]
 #group_layouts = ["monadtall", "matrix", "monadtall", "bsp", "monadtall", "matrix", "monadtall", "bsp", "monadtall", "monadtall",]
 
 for i in range(len(group_names)):
@@ -322,13 +322,7 @@ widget_defaults = init_widgets_defaults()
 def init_widgets_list():
     prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
     widgets_list = [
-        # widget.TextBox(
-        #     font = 'Material Design Icons',
-        #     text = '',
-        #     background = colors[1],
-        #     foreground = colors[0],
-        #     fontsize = 18,
-        # ),
+
 		widget.CurrentLayoutIcon(
 			custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
 			foreground = colors[2],
@@ -348,6 +342,13 @@ def init_widgets_list():
 			foreground = colors[1],
 			background = colors[1]
 		),
+        # widget.TextBox(
+        #     font = 'Material Design Icons',
+        #     text = '',
+        #     background = colors[1],
+        #     foreground = colors[0],
+        #     fontsize = 20,
+        # ),
 		widget.GroupBox(
 			font="FontAwesome",
 			hide_unused=  True,
@@ -368,7 +369,7 @@ def init_widgets_list():
 			urgent_alert_method = 'border',
 		),
         # widget.TextBox(
-        #     font = 'Material Design Icons',
+        #     font = 'Unifont',
         #     text = '',
         #     background = colors[1],
         #     foreground = colors[0],
@@ -390,7 +391,7 @@ def init_widgets_list():
 			fontsize = 14,
 			foreground = colors[5],
 			background = colors[1],
-			empty_group_string = 'p5ypher',
+			empty_group_string = ':: p5ypher ::',
 			max_chars = 40,
 		),
 		widget.Spacer(
@@ -555,14 +556,14 @@ def init_widgets_list():
             foreground=colors[8],
             background=colors[0],
             padding = 0,
-            fontsize=26
+            fontsize=24
         ),
 		widget.Clock(
             foreground = colors[5],
             background = colors[0],
             font = 'JetBrainsMono Nerd Font Bold',
             fontsize = 14,
-            format="%Y-%m-%d"
+            format="%a, %d %b"
         ),
 		widget.Sep(
             linewidth = 0,
@@ -576,7 +577,7 @@ def init_widgets_list():
             foreground=colors[12],
             background=colors[0],
             padding = 0,
-            fontsize=30
+            fontsize=26
         ),
 		widget.Clock(
             foreground = colors[5],
@@ -601,8 +602,8 @@ def init_widgets_list():
 		widget.Systray(
             background = colors[1],
             foreground = colors[1],
-            icon_size=16,
-            padding = 4
+            icon_size=14,
+            padding = 8
         ),
 		widget.Sep(
             linewidth = 0,

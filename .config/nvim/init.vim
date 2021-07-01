@@ -43,7 +43,7 @@ Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-
+Plug 'skammer/vim-css-color'
 
 """""" C++ autocompletion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}

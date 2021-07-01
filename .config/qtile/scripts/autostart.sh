@@ -7,22 +7,24 @@ function run {
   fi
 }
 
-#nvidia-settings --assign CurrentMetaMode="HDMI-0: nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On, TripleBuffer = on, AllowIndirectGLXProtocol = off }, eDP-1-1: nvidia-auto-select +1920+0 { ForceFullCompositionPipeline = On, TripleBuffer = on, AllowIndirectGLXProtocol = off }" &
-
-feh --bg-fill $HOME/Pictures/wallpapers/ghost.jpg &
-#starting utility applications at boot time
+picom --experimental-backends &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+nvidia-settings --assign CurrentMetaMode="HDMI-0: nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On, TripleBuffer = on, AllowIndirectGLXProtocol = off }, eDP-1-1: nvidia-auto-select +1920+0 { ForceFullCompositionPipeline = On, TripleBuffer = on, AllowIndirectGLXProtocol = off }" &
+
+feh --bg-fill $HOME/Pictures/background/Ghost.jpg &
+#starting utility applications at boot time
+#/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 run nm-applet &
 run pamac-tray &
-numlockx on &
 #run xfce4-power-manager &
 #blueman-applet &
-flameshot &
+run flameshot &
 #picom --config $HOME/.config/picom/picom.conf &
-picom --experimental-backends &
-#/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-dunst &
-/usr/lib/kdeconnectd &
+run dunst &
+run optimus-manager-qt &
+run copyq &
+
+#/usr/lib/kdeconnectd &
 #starting user applications at boot time
 #run cbatticon &
 #run discord &

@@ -93,7 +93,7 @@ PROMPT="%B%{$fg[yellow]%}%(4~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red
 # Print a greeting message when shell is started
 #pfetch
 
-colorscript random
+#colorscript random
 ## Prompt on right side:
 #  - shows status of git when in git repository (code adapted from https://techanic.net/2012/12/30/my_git_prompt_for_zsh.html)
 #  - shows exit status of previous command (if previous command finished with an error)
