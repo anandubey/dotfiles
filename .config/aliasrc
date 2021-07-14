@@ -37,7 +37,7 @@ alias cat="bat --style header --style rules --style snip --style changes --style
 alias la="exa -a --color=always --group-directories-first --icons"
 alias ll="exa -l --color=always --group-directories-first --icons"
 alias l.="exa -a | egrep '^\.'"
-
+alias top="bpytop"
 # Get Clutter-free Hardware info
 alias hw="hwinfo --short"
 

@@ -1,3 +1,12 @@
+#!/bin/sh
+#             ______            __
+#      ____  / ______  ______  / /_  ___  _____
+#     / __ \/___ \/ / / / __ \/ __ \/ _ \/ ___/
+#    / /_/ ____/ / /_/ / /_/ / / / /  __/ /
+#   / .___/_____/\__, / .___/_/ /_/\___/_/
+#  /_/          /____/_/
+#
+
 
 import os
 import re
@@ -44,6 +53,7 @@ keys = [
     Key([mod], "KP_Enter", lazy.spawn('alacritty')),
     Key([mod], "e", lazy.spawn('thunar')),
     Key([mod], "x", lazy.spawn('xkill')),
+    Key([mod], "y", lazy.spawn('google-chrome-stable --incognito "https://www.youtube.com/results?search_query=bhajan"')),
 
 # SUPER + SHIFT KEYS
 
@@ -220,7 +230,7 @@ group_labels = ["諭", "", "", "", "",]
 #group_labels = ["Web", "Edit/chat", "Image", "Gimp", "Meld", "Video", "Vb", "Files", "Mail", "Music",]
 
 #group_layouts = ["monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "treetab", "floating",]
-group_layouts = ["monadtall", "monadtall", "monadtall", "monadtall", "floating",]
+group_layouts = ["monadtall", "max", "monadwide", "monadtall", "floating",]
 #group_layouts = ["monadtall", "matrix", "monadtall", "bsp", "monadtall", "matrix", "monadtall", "bsp", "monadtall", "monadtall",]
 
 for i in range(len(group_names)):
@@ -253,7 +263,7 @@ for i in groups:
 
 def init_colors():
     return [
-        ["#42414D", "#42414D"], # color 0
+        ["#2b2f37", "#2b2f37"], # color 0
         ["#1d2021", "#1d2021"], # color 1
         ["#c0c5ce", "#c0c5ce"], # color 2
         ["#d3869b", "#d3869b"], # color 3
@@ -265,7 +275,7 @@ def init_colors():
         ["#d65d0e", "#d65d0e"], # color 9
         ["#88C0D0", "#88C0D0"], # color 10
         ["#adb1b9", "#adb1b9"], # color 11
-        ["#fe8019", "#fe8019"], # color 12
+        ["#d19a66", "#d19a66"], # color 12
     ]
 
 colors = init_colors()
@@ -283,21 +293,21 @@ layout_theme = init_layout_theme()
 
 
 layouts = [
-    layout.MonadTall(margin=12, border_width=2, border_focus=colors[7][0], border_normal=colors[4][0]),
-    layout.MonadWide(margin=12, border_width=2, border_focus=colors[7][0], border_normal=colors[4][0]),
-    layout.Matrix(**layout_theme),
-    layout.Bsp(**layout_theme),
+    layout.MonadTall(margin=12, border_width=2, border_focus=colors[8][0], border_normal=colors[4][0]),
+    layout.MonadWide(margin=12, border_width=2, border_focus=colors[8][0], border_normal=colors[4][0]),
+    #layout.Matrix(**layout_theme),
+    #layout.Bsp(**layout_theme),
     layout.Floating(**layout_theme),
-    layout.RatioTile(**layout_theme),
+    #layout.RatioTile(**layout_theme),
     layout.Max(**layout_theme),
     #layout.Columns(**layout_theme),
     #layout.Stack(**layout_theme),
     #layout.Tile(**layout_theme),
-    #layout.TreeTab(
+    # layout.TreeTab(
     #    sections=['FIRST', 'SECOND'],
-    #    bg_color = '#141414',
-    #    active_bg = '#0000ff',
-    #    inactive_bg = '#1e90ff',
+    #    bg_color = colors[0][0],
+    #    active_bg = colors[8][0],
+    #    inactive_bg = colors[0][0],
     #    padding_y =5,
     #    section_top =10,
     #    panel_width = 280),
@@ -495,7 +505,7 @@ def init_widgets_list():
 			foreground=colors[7],
 			background=colors[0],
 			padding = 2,
-			fontsize=34,
+			fontsize=32,
             mouse_callbacks = {'Button1': lambda : qtile.cmd_spawn(myTerm + ' -e nmtui')},
 		),
 		widget.Wlan(
@@ -553,10 +563,10 @@ def init_widgets_list():
 		widget.TextBox(
             font="FontAwesome Bold",
             text=" ",
-            foreground=colors[8],
+            foreground=colors[12],
             background=colors[0],
             padding = 0,
-            fontsize=24
+            fontsize=23
         ),
 		widget.Clock(
             foreground = colors[5],
@@ -577,7 +587,7 @@ def init_widgets_list():
             foreground=colors[12],
             background=colors[0],
             padding = 0,
-            fontsize=26
+            fontsize=24
         ),
 		widget.Clock(
             foreground = colors[5],
@@ -744,7 +754,7 @@ floating_layout = layout.Floating(float_rules=[
     {'wmclass': 'Yad'},
 
 
-],  fullscreen_border_width = 0, border_width = 2)
+],  fullscreen_border_width = 0, border_width = 2, border_focus=colors[8][0], border_normal=colors[0][0])
 auto_fullscreen = True
 
 focus_on_window_activation = "focus" # or smart

@@ -15,13 +15,13 @@ feh --bg-fill $HOME/Pictures/background/Ghost.jpg &
 #starting utility applications at boot time
 #/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 run nm-applet &
-run pamac-tray &
+#run pamac-tray &
 #run xfce4-power-manager &
 #blueman-applet &
 run flameshot &
 #picom --config $HOME/.config/picom/picom.conf &
 run dunst &
-run optimus-manager-qt &
+#run optimus-manager-qt &
 run copyq &
 
 #/usr/lib/kdeconnectd &
