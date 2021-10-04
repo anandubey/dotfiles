@@ -37,8 +37,9 @@ call plug#begin('~/.config/nvim/plugged')
 """""" Color scheme
 "Plug 'lifepillar/vim-gruvbox8'
 "Plug 'joshdick/onedark.vim'
-
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'dracula/vim', { 'as': 'dracula' }
+"Plug 'patstockwell/vim-monokai-tasty'
+"Plug 'sonph/onehalf', { 'rtp': 'vim' }
 """""" airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -59,7 +60,8 @@ if (empty($TMUX))
   endif
 endif
 
-colorscheme onehalfdark
+"colorscheme onehalfdark
+colorscheme dracula
 set t_Co=256
 "let g:onedark_termcolors=256
 
@@ -71,7 +73,8 @@ set t_Co=256
 
 
 " Enable airline
-let g:airline_theme="onehalfdark"
+"let g:airline_theme="onehalfdark"
+let g:airline_theme='monokai_tasty'
 "let g:airline_powerline_fonts=1
 
 " Enable autocompletion:

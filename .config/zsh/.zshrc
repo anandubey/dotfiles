@@ -85,29 +85,30 @@ fi
 # enable substitution for prompt
 setopt prompt_subst
 
-#PROMPT="%B%{$fg[yellow]%}%(3~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})⯙⨠ %⪢{$reset_color%}%b "
-PROMPT="%B%{$fg[yellow]%}%(4~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})𒁷 %{$reset_color%}%b "
+PROMPT="%B%{$fg[yellow]%}%(3~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})%{$reset_color%}%b "
+#PROMPT="%B%{$fg[yellow]%}%(4~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})𒁷 %{$reset_color%}%b "
 #PROMPT="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
 
 # Print a greeting message when shell is started
 #pfetch
 
-#colorscript random
+colorscript random
 ## Prompt on right side:
 #  - shows status of git when in git repository (code adapted from https://techanic.net/2012/12/30/my_git_prompt_for_zsh.html)
 #  - shows exit status of previous command (if previous command finished with an error)
 #  - is invisible, if neither is the case
 
 # Modify the colors and symbols in these variables as desired.
-GIT_PROMPT_SYMBOL="%{$fg[blue]%}±"                              # plus/minus     - clean repo
-GIT_PROMPT_PREFIX="%{$fg[green]%}[%{$reset_color%}"
-GIT_PROMPT_SUFFIX="%{$fg[green]%}]%{$reset_color%}"
+GIT_PROMPT_SYMBOL="%{$fg[blue]%}"                              # plus/minus     - clean repo
+GIT_PROMPT_BRANCH="︁"
+GIT_PROMPT_PREFIX="%{$fg[green]%}%{$reset_color%}"
+GIT_PROMPT_SUFFIX="%{$fg[green]%}%{$reset_color%}"
 GIT_PROMPT_AHEAD="%{$fg[red]%}ANUM%{$reset_color%}"             # A"NUM"         - ahead by "NUM" commits
 GIT_PROMPT_BEHIND="%{$fg[cyan]%}BNUM%{$reset_color%}"           # B"NUM"         - behind by "NUM" commits
 GIT_PROMPT_MERGING="%{$fg_bold[magenta]%}⚡︎%{$reset_color%}"     # lightning bolt - merge conflict
-GIT_PROMPT_UNTRACKED="%{$fg_bold[red]%}●%{$reset_color%}"       # red circle     - untracked files
-GIT_PROMPT_MODIFIED="%{$fg_bold[yellow]%}●%{$reset_color%}"     # yellow circle  - tracked files modified
+GIT_PROMPT_UNTRACKED="%{$fg_bold[red]%}[︁%{$reset_color%}"       # red circle     - untracked files
+GIT_PROMPT_MODIFIED="%{$fg_bold[yellow]%}] %{$reset_color%}"     # yellow circle  - tracked files modified
 GIT_PROMPT_STAGED="%{$fg_bold[green]%}●%{$reset_color%}"        # green circle   - staged changes present = ready for "git push"
 
 parse_git_branch() {
@@ -149,7 +150,7 @@ git_prompt_string() {
   local git_where="$(parse_git_branch)"
 
   # If inside a Git repository, print its branch and state
-  [ -n "$git_where" ] && echo "$GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_PREFIX%{$fg[yellow]%}${git_where#(refs/heads/|tags/)}$GIT_PROMPT_SUFFIX"
+  [ -n "$git_where" ] && echo "$GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_BRANCH(%{$fg[cyan]%}${git_where#(refs/heads/|tags/)}%{$reset_color%})"
 
   # If not inside the Git repo, print exit codes of last command (only if it failed)
   [ ! -n "$git_where" ] && echo "%{$fg[red]%} %(?..[%?])"
@@ -158,7 +159,6 @@ git_prompt_string() {
 # Right prompt with exit status of previous command if not successful
  #RPROMPT="%{$fg[red]%} %(?..[%?])"
 # Right prompt with exit status of previous command marked with ✓ or ✗
-RPROMPT="%(?.%{$fg[green]%}✓ %{$reset_color%}.%{$fg[red]%}✗ %{$reset_color%})"
 
 
 # Apply different settigns for different terminals

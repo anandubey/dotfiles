@@ -12,7 +12,7 @@ import os
 import re
 import socket
 import subprocess
-from libqtile.config import Drag, Key, Screen, Group, Drag, Click, Rule
+from libqtile.config import Drag, Key, Screen, Group, Drag, Match, Click, Rule
 from libqtile.command import lazy
 from libqtile import layout, bar, widget, hook, qtile
 from libqtile.widget import Spacer
@@ -22,7 +22,7 @@ mod = "mod4"
 mod1 = "alt"
 mod2 = "control"
 HOME = os.path.expanduser('~')
-
+BROWSER = "google-chrome-stable"
 
 @lazy.function
 def window_to_prev_group(qtile):
@@ -47,13 +47,13 @@ keys = [
     Key([mod], "q", lazy.window.kill()),
     Key([mod], "t", lazy.spawn('alacritty')),
     Key([mod], "v", lazy.spawn('pavucontrol')),
-    Key([mod], "b", lazy.spawn('firefox')),
+    Key([mod], "b", lazy.spawn(BROWSER)),
     Key([mod], "Escape", lazy.spawn('betterlockscreen -l dimblur')),
     Key([mod], "Return", lazy.spawn('alacritty')),
     Key([mod], "KP_Enter", lazy.spawn('alacritty')),
     Key([mod], "e", lazy.spawn('thunar')),
+    Key([mod], "p", lazy.spawn('rofi -no-lazy-grab -show drun -modi drun -theme .config/rofi/launchers/misc/column.rasi')),
     Key([mod], "x", lazy.spawn('xkill')),
-    Key([mod], "y", lazy.spawn('google-chrome-stable --incognito "https://www.youtube.com/results?search_query=bhajan"')),
 
 # SUPER + SHIFT KEYS
 
@@ -74,26 +74,12 @@ keys = [
     Key(["mod1", "control"], "u", lazy.spawn('pavucontrol')),
     Key(["mod1", "control"], "Return", lazy.spawn('kitty')),
 
-# ALT + ... KEYS
-
-
-    # Key(["mod1"], "p", lazy.spawn('pamac-manager')),
-    # Key(["mod1"], "f", lazy.spawn('firedragon')),
-    # Key(["mod1"], "e", lazy.spawn('emacs')),
-    # Key(["mod1"], "m", lazy.spawn('pcmanfm')),
-    # Key(["mod1"], "w", lazy.spawn('garuda-welcome')),
-
-
-# CONTROL + SHIFT KEYS
-
-    # Key([mod2, "shift"], "Escape", lazy.spawn('lxtask')),
-
 
 # SCREENSHOTS
 
-    Key([], "Print", lazy.spawn('flameshot full -p ' + HOME + '/Pictures/screenshot')),
-    Key([mod2], "Print", lazy.spawn('flameshot full -p ' + HOME + '/Pictures/screenshot')),
-#    Key([mod2, "shift"], "Print", lazy.spawn('gnome-screenshot -i')),
+    Key([], "Print", lazy.spawn('flameshot gui')),
+    Key([mod2], "Print", lazy.spawn('flameshot full -p ' + HOME + '/Pictures/ss')),
+
 
 # MULTIMEDIA KEYS
 
@@ -284,17 +270,17 @@ colors = init_colors()
 def init_layout_theme():
     return {
         "margin":10,
-        "border_width":2,
-        "border_focus": colors[7][0],
-        "border_normal": colors[4][0],
+        "border_width":1,
+        "border_focus": colors[11][0],
+        "border_normal": colors[0][0],
     }
 
 layout_theme = init_layout_theme()
 
 
 layouts = [
-    layout.MonadTall(margin=12, border_width=2, border_focus=colors[8][0], border_normal=colors[4][0]),
-    layout.MonadWide(margin=12, border_width=2, border_focus=colors[8][0], border_normal=colors[4][0]),
+    layout.MonadTall(margin=10, border_width=1, border_focus=colors[11][0], border_normal=colors[0][0]),
+    layout.MonadWide(margin=10, border_width=1, border_focus=colors[11][0], border_normal=colors[0][0]),
     #layout.Matrix(**layout_theme),
     #layout.Bsp(**layout_theme),
     layout.Floating(**layout_theme),
@@ -333,25 +319,12 @@ def init_widgets_list():
     prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
     widgets_list = [
 
-		widget.CurrentLayoutIcon(
-			custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
-			foreground = colors[2],
-			background = colors[1],
-			padding = 0,
-			scale = 0.5
-		),
-		widget.CurrentLayout(
-			font = "JetBrainsMono Nerd Font Bold",
-			fontsize = 12,
-			foreground = colors[2],
-			background = colors[1]
-		),
-        widget.Sep(
-			linewidth = 0,
-			padding = 10,
-			foreground = colors[1],
-			background = colors[1]
-		),
+		# widget.Sep(
+		# 	linewidth = 0,
+		# 	padding = 10,
+		# 	foreground = colors[1],
+		# 	background = colors[1]
+		# ),
         # widget.TextBox(
         #     font = 'Material Design Icons',
         #     text = '',
@@ -359,25 +332,55 @@ def init_widgets_list():
         #     foreground = colors[0],
         #     fontsize = 20,
         # ),
+        widget.Sep(
+            linewidth = 0,
+			padding = 10,
+			foreground = colors[1],
+			background = colors[1]
+        ),
+        widget.Image(
+            filename = "/usr/share/icons/manjaro/white/white.svg",
+            scale = "True",
+            margin = 4,
+            mouse_callbacks = {
+                'Button1': lambda: qtile.cmd_spawn("alacritty")
+            }
+        ),
+        widget.Sep(
+            linewidth = 0,
+			padding = 10,
+			foreground = colors[1],
+			background = colors[1]
+        ),
 		widget.GroupBox(
 			font="FontAwesome",
-			hide_unused=  True,
 			fontsize = 26,
 			margin_y = 2,
 			margin_x = 10,
 			padding_y = 6,
 			padding_x = 4,
-			borderwidth = 0,
+			borderwidth = 2,
 			disable_drag = True,
-			active = colors[11],
+			active = ["#a7ab80", "#a7ab80"],
 			inactive = colors[4],
-			rounded = True,
+			rounded = False,
+            highlight_color = ["#4c566a", "#8be9fd"],
 			highlight_method = "text",
-			this_current_screen_border = colors[8],
+			this_current_screen_border = ["#fbffcc", "#fbffcc"],
+            this_screen_border = colors [11],
 			foreground = colors[4],
 			background = colors[0],
 			urgent_alert_method = 'border',
 		),
+        # colors = [["#2e3440", "#2e3440"],  
+        #   ["#4c566a", "#4c566a"], 
+        #   ["#88c0d0", "#88c0d0"], 
+        #   ["#434c5e", "#434c5e"], 
+        #   ["#3b4252", "#3b4252"], 
+        #   ["#81a1c1", "#81a1c1"], 
+        #   ["#5e81ac", "#5e81ac"], 
+        #   ["#eceff4", "#eceff4"],
+        #   ["#d8dee9", "#d8dee9"]]
         # widget.TextBox(
         #     font = 'Unifont',
         #     text = '',
@@ -397,11 +400,12 @@ def init_widgets_list():
 		widget.Spacer(
 			length=bar.STRETCH,
 		),
-		widget.WindowName(font="JetBrainsMono Nerd Font",
+		widget.WindowName(
+            font="JetBrainsMono Nerd Font",
 			fontsize = 14,
 			foreground = colors[5],
 			background = colors[1],
-			empty_group_string = ':: p5ypher ::',
+			empty_group_string = ':: Anand Dubey ::',
 			max_chars = 40,
 		),
 		widget.Spacer(
@@ -437,36 +441,29 @@ def init_widgets_list():
 		# 	foreground = colors[0],
 		# 	background = colors[1]
 		# ),
+
         widget.Sep(
 			linewidth = 0,
 			padding = 10,
 			foreground = colors[0],
 			background = colors[0]
 		),
-		widget.TextBox(
-			font="FontAwesome Bold",
-			text="",
-			foreground="#d19a66",
-			background=colors[0],
-			fontsize=26
-		),
-		widget.Sep(
-			linewidth = 0,
-			padding = 3,
-			foreground = colors[0],
-			background = colors[0]
-		),
 
-		widget.Memory(
-			font="JetBrainsMono Nerd Font Bold",
-			format = '{MemUsed} MB',
-			update_interval = 1,
-			fontsize = 14,
-			foreground = colors[5],
+        widget.CurrentLayoutIcon(
+			custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
+			foreground = colors[2],
 			background = colors[0],
-			mouse_callbacks = {'Button1': lambda : qtile.cmd_spawn(myTerm + ' -e htop')},
+			padding = 0,
+			scale = 0.5
 		),
-		widget.Sep(
+		# widget.CurrentLayout(
+		# 	font = "JetBrainsMono Nerd Font Bold",
+		# 	fontsize = 14,
+		# 	foreground = colors[2],
+		# 	background = colors[0]
+		# ),
+
+        widget.Sep(
 			linewidth = 0,
 			padding = 10,
 			foreground = colors[0],
@@ -478,11 +475,46 @@ def init_widgets_list():
 			foreground = colors[1],
 			background = colors[1]
 		),
+		widget.TextBox(
+			font="FontAwesome Bold",
+			text="",
+			foreground="#d19a66",
+			background=colors[1],
+			fontsize=26
+		),
+		widget.Sep(
+			linewidth = 0,
+			padding = 3,
+			foreground = colors[1],
+			background = colors[1]
+		),
+
+		widget.Memory(
+			font="JetBrainsMono Nerd Font Bold",
+			format = '{MemUsed:.0f} MB',
+			update_interval = 1,
+			fontsize = 14,
+			foreground = colors[5],
+			background = colors[1],
+			mouse_callbacks = {'Button1': lambda : qtile.cmd_spawn(myTerm + ' -e bpytop')},
+		),
+		widget.Sep(
+			linewidth = 0,
+			padding = 10,
+			foreground = colors[1],
+			background = colors[1]
+		),
+        widget.Sep(
+			linewidth = 0,
+			padding = 10,
+			foreground = colors[1],
+			background = colors[0]
+		),
         widget.TextBox(
 			font="FontAwesome Bold",
 			text="",
 			foreground=colors[5],
-			background=colors[1],
+			background=colors[0],
 			fontsize=36
 		),
         widget.Battery(
@@ -491,40 +523,40 @@ def init_widgets_list():
             fontsize = 14,
             format = "{percent:2.0%}",
             foreground = colors[5],
-            background = colors[1],
+            background = colors[0],
             ),
         widget.Sep(
 			linewidth = 0,
 			padding = 10,
-			foreground = colors[1],
-			background = colors[1]
+			foreground = colors[0],
+			background = colors[0]
 		),
-		widget.TextBox(
-			font="FontAwesome Bold",
-			text=" ",
-			foreground=colors[7],
-			background=colors[0],
-			padding = 2,
-			fontsize=32,
-            mouse_callbacks = {'Button1': lambda : qtile.cmd_spawn(myTerm + ' -e nmtui')},
-		),
-		widget.Wlan(
-            font = 'JetBrainsMono Nerd Font',
-            fontsize = 14,
-            interface="wlp3s0",
-            disconnected_message = "Disconnected",
-            format = '',
-            update_interval = 3,
-            foreground=colors[5],
-            background=colors[0],
-            padding = 0,
-        ),
-		widget.Sep(
-            linewidth = 0,
-            padding = 10,
-            foreground = colors[0],
-            background = colors[0]
-        ),
+		# widget.TextBox(
+		# 	font="FontAwesome Bold",
+		# 	text=" ",
+		# 	foreground=colors[7],
+		# 	background=colors[0],
+		# 	padding = 2,
+		# 	fontsize=32,
+        #     mouse_callbacks = {'Button1': lambda : qtile.cmd_spawn(myTerm + ' -e nmtui')},
+		# ),
+		# widget.Wlan(
+        #     font = 'JetBrainsMono Nerd Font',
+        #     fontsize = 14,
+        #     interface="wlp3s0",
+        #     disconnected_message = "Disconnected",
+        #     format = '',
+        #     update_interval = 3,
+        #     foreground=colors[5],
+        #     background=colors[0],
+        #     padding = 0,
+        # ),
+		# widget.Sep(
+        #     linewidth = 0,
+        #     padding = 10,
+        #     foreground = colors[0],
+        #     background = colors[0]
+        # ),
 		widget.Sep(
             linewidth = 0,
             padding = 10,
@@ -532,6 +564,12 @@ def init_widgets_list():
             background = colors[1]
         ),
 
+        widget.Sep(
+			linewidth = 0,
+			padding = 10,
+			foreground = colors[1],
+			background = colors[1]
+		),
 		widget.TextBox(
             font="FontAwesome Bold",
             text="",
@@ -573,7 +611,7 @@ def init_widgets_list():
             background = colors[0],
             font = 'JetBrainsMono Nerd Font Bold',
             fontsize = 14,
-            format="%a, %d %b"
+            format="%a, %d %b %Y"
         ),
 		widget.Sep(
             linewidth = 0,
@@ -643,8 +681,8 @@ widgets_screen2 = init_widgets_screen2()
 
 def init_screens():
     return [
-        Screen(top=bar.Bar(widgets=init_widgets_screen1(), size=26, opacity=1)),
-        Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26, opacity=1))
+        Screen(top=bar.Bar(widgets=init_widgets_screen1(), size=24, opacity=1)),
+        Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=24, opacity=1))
     ]
 screens = init_screens()
 
@@ -674,7 +712,7 @@ def assign_app_group(client):
     d["2"] = ["Navigator", "Firefox", "Chromium", "Google-chrome", "Brave", "Brave-browser",
                 "navigator","firefox", "chromium", "google-chrome", "brave", "brave-browser",]
     d["3"] = [ "Atom", "Subl", "Geany", "Brackets", "Code-oss", "Codme", "TelegramDesktop", "Discord",
-               "atom", "subl", "geany", "brackets", "code-oss", "code", "telegramDesktop", "discord", ]
+               "atom", "subl", "geany", "brackets", "code-oss", "code", "telegramDesktop", "discord", "intellij-idea-ultimate-edition"]
     d["4"] = ["Nitrogen", "Feh", "Viewnior", "Arandr",
                 "nitrogen", "feh", "viewnior", "arandr",]
     d["5"] = ["Gimp", "Pamac-manager", "Thunar",
@@ -729,31 +767,29 @@ follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
 floating_layout = layout.Floating(float_rules=[
-    {'wmclass': 'confirm'},
-    {'wmclass': 'dialog'},
-    {'wmclass': 'download'},
-    {'wmclass': 'error'},
-    {'wmclass': 'file_progress'},
-    {'wmclass': 'notification'},
-    {'wmclass': 'splash'},
-    {'wmclass': 'toolbar'},
-    {'wmclass': 'confirmreset'},
-    {'wmclass': 'makebranch'},
-    {'wmclass': 'maketag'},
-    {'wmclass': 'Arandr'},
-    {'wmclass': 'feh'},
-    {'wmclass': '/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1'},
-    {'wname': 'branchdialog'},
-    {'wmclass': 'arcolinux-logout'},
-    {'wname': 'Open File'},
-    {'wname': 'pinentry'},
-    {'wmclass': 'ssh-askpass'},
-    {'wmclass': 'lxpolkit'},
-    {'wmclass': 'Lxpolkit'},
-    {'wmclass': 'yad'},
-    {'wmclass': 'Yad'},
-
-
+    Match('wmclass = confirm'),
+    Match('wmclass = dialog'),
+    Match('wmclass = download'),
+    Match('wmclass = error'),
+    Match('wmclass = file_progress'),
+    Match('wmclass = notification'),
+    Match('wmclass = splash'),
+    Match('wmclass = toolbar'),
+    Match('wmclass = confirmreset'),
+    Match('wmclass = makebranch'),
+    Match('wmclass = maketag'),
+    Match('wmclass = Arandr'),
+    Match('wmclass = feh'),
+    Match('wmclass = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1'),
+    Match('wmclass = branchdialog'),
+    Match('wmclass = arcolinux-logout'),
+    Match('wmclass = Open File'),
+    Match('wmclass = pinentry'),
+    Match('wmclass = ssh-askpass'),
+    Match('wmclass = lxpolkit'),
+    Match('wmclass = Lxpolkit'),
+    Match('wmclass = yad'),
+    Match('wmclass = Yad'),
 ],  fullscreen_border_width = 0, border_width = 2, border_focus=colors[8][0], border_normal=colors[0][0])
 auto_fullscreen = True
 

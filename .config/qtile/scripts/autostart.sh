@@ -11,11 +11,10 @@ picom --experimental-backends &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 nvidia-settings --assign CurrentMetaMode="HDMI-0: nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On, TripleBuffer = on, AllowIndirectGLXProtocol = off }, eDP-1-1: nvidia-auto-select +1920+0 { ForceFullCompositionPipeline = On, TripleBuffer = on, AllowIndirectGLXProtocol = off }" &
 
-feh --bg-fill $HOME/Pictures/background/Ghost.jpg &
+feh --bg-fill $HOME/Pictures/walls/ghost.jpg &
 #starting utility applications at boot time
-#/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 run nm-applet &
-#run pamac-tray &
+run pamac-tray &
 #run xfce4-power-manager &
 #blueman-applet &
 run flameshot &
