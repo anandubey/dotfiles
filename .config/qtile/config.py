@@ -74,6 +74,9 @@ keys = [
     Key(["mod1", "control"], "u", lazy.spawn('pavucontrol')),
     Key(["mod1", "control"], "Return", lazy.spawn('kitty')),
 
+# SHUTDOWN
+    Key([mod, "control", ], "End", lazy.spawn('systemctl poweroff')),
+
 
 # SCREENSHOTS
 
@@ -216,7 +219,7 @@ group_labels = ["諭", "", "", "", "",]
 #group_labels = ["Web", "Edit/chat", "Image", "Gimp", "Meld", "Video", "Vb", "Files", "Mail", "Music",]
 
 #group_layouts = ["monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "treetab", "floating",]
-group_layouts = ["monadtall", "max", "monadwide", "monadtall", "floating",]
+group_layouts = ["monadtall", "monadtall", "monadwide", "monadtall", "floating",]
 #group_layouts = ["monadtall", "matrix", "monadtall", "bsp", "monadtall", "matrix", "monadtall", "bsp", "monadtall", "monadtall",]
 
 for i in range(len(group_names)):
@@ -246,59 +249,52 @@ for i in groups:
 
 
 # COLORS FOR THE BAR
-
 def init_colors():
-    return [
-        ["#2b2f37", "#2b2f37"], # color 0
-        ["#1d2021", "#1d2021"], # color 1
-        ["#c0c5ce", "#c0c5ce"], # color 2
-        ["#d3869b", "#d3869b"], # color 3
-        ["#646870", "#646870"], # color 4
-        ["#ffffff", "#ffffff"], # color 5
-        ["#fb4934", "#fb4934"], # color 6
-        ["#8ec07c", "#8ec07c"], # color 7
-        ["#fbf1c7", "#fbf1c7"], # color 8
-        ["#d65d0e", "#d65d0e"], # color 9
-        ["#88C0D0", "#88C0D0"], # color 10
-        ["#adb1b9", "#adb1b9"], # color 11
-        ["#d19a66", "#d19a66"], # color 12
-    ]
+    dracula = {
+        "background" : ["#282A36", "#282A36"], 
+        "foreground" : ["#F8F8F2", "#F8F8F2"], 
+        "selection"  : ["#44475A", "#44475A"], 
+        "comment"    : ["#6272A4", "#6272A4"], 
+        "red"        : ["#FF5555", "#FF5555"], 
+        "orange"     : ["#FFB86C", "#FFB86C"], 
+        "yellow"     : ["#F1FA8C", "#F1FA8C"], 
+        "green"      : ["#50FA7B", "#50FA7B"], 
+        "purple"     : ["#BD93F9", "#BD93F9"], 
+        "cyan"       : ["#8BE9FD", "#8BE9FD"], 
+        "pink"       : ["#FF79C6", "#FF79C6"], 
+        "teal"       : ["#3a7575", "#3a7575"],
+        "nord_cyan"  : ["#88c0d0", "#88c0d0"],
+        "active"     : ["#c0c5ce", "#c0c5ce"],
+        "dark_purple"  : ["#715895", "#715895"],
+        "brick_red"  : ["#715895", "#715895"],
+    }
+
+    return dracula
 
 colors = init_colors()
-
 
 def init_layout_theme():
     return {
         "margin":10,
         "border_width":1,
-        "border_focus": colors[11][0],
-        "border_normal": colors[0][0],
+        "border_focus": colors["comment"][0],
+        "border_normal": colors["background"][0],
     }
 
 layout_theme = init_layout_theme()
 
 
 layouts = [
-    layout.MonadTall(margin=10, border_width=1, border_focus=colors[11][0], border_normal=colors[0][0]),
-    layout.MonadWide(margin=10, border_width=1, border_focus=colors[11][0], border_normal=colors[0][0]),
-    #layout.Matrix(**layout_theme),
-    #layout.Bsp(**layout_theme),
+    layout.MonadTall(
+        margin=10,
+        border_width=1,
+        border_focus=colors["comment"][0],
+        border_normal=colors["background"][0]
+    ),
+    layout.MonadWide(margin=10, border_width=1, border_focus=colors["comment"][0], border_normal=colors["background"][0]),
+
     layout.Floating(**layout_theme),
-    #layout.RatioTile(**layout_theme),
-    layout.Max(**layout_theme),
-    #layout.Columns(**layout_theme),
-    #layout.Stack(**layout_theme),
-    #layout.Tile(**layout_theme),
-    # layout.TreeTab(
-    #    sections=['FIRST', 'SECOND'],
-    #    bg_color = colors[0][0],
-    #    active_bg = colors[8][0],
-    #    inactive_bg = colors[0][0],
-    #    padding_y =5,
-    #    section_top =10,
-    #    panel_width = 280),
-    #layout.VerticalTile(**layout_theme),
-    #layout.Zoomy(**layout_theme)
+   
 ]
 
 
@@ -310,7 +306,7 @@ def init_widgets_defaults():
         font="Noto Sans",
         fontsize = 12,
         padding = 2,
-        background=colors[1]
+        background=colors["background"]
     )
 
 widget_defaults = init_widgets_defaults()
@@ -318,39 +314,29 @@ widget_defaults = init_widgets_defaults()
 def init_widgets_list():
     prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
     widgets_list = [
-
-		# widget.Sep(
-		# 	linewidth = 0,
-		# 	padding = 10,
-		# 	foreground = colors[1],
-		# 	background = colors[1]
-		# ),
-        # widget.TextBox(
-        #     font = 'Material Design Icons',
-        #     text = '',
-        #     background = colors[1],
-        #     foreground = colors[0],
-        #     fontsize = 20,
-        # ),
         widget.Sep(
             linewidth = 0,
-			padding = 10,
-			foreground = colors[1],
-			background = colors[1]
+			padding = 5,
+			foreground = colors["background"],
+			background = colors["dark_purple"]
         ),
         widget.Image(
             filename = "/usr/share/icons/manjaro/white/white.svg",
             scale = "True",
-            margin = 4,
+            margin = 5,
+            background = colors["dark_purple"],
             mouse_callbacks = {
-                'Button1': lambda: qtile.cmd_spawn("alacritty")
+                'Button1': lambda: qtile.cmd_spawn(
+                    "rofi -no-lazy-grab -show drun -modi drun -theme\
+                     .config/rofi/launchers/misc/column.rasi"
+                    )
             }
         ),
         widget.Sep(
             linewidth = 0,
-			padding = 10,
-			foreground = colors[1],
-			background = colors[1]
+			padding = 5,
+			foreground = colors["background"],
+			background = colors["dark_purple"]
         ),
 		widget.GroupBox(
 			font="FontAwesome",
@@ -361,41 +347,21 @@ def init_widgets_list():
 			padding_x = 4,
 			borderwidth = 2,
 			disable_drag = True,
-			active = ["#a7ab80", "#a7ab80"],
-			inactive = colors[4],
+			active = colors["active"],
+			inactive = colors["comment"],
 			rounded = False,
-            highlight_color = ["#4c566a", "#8be9fd"],
 			highlight_method = "text",
-			this_current_screen_border = ["#fbffcc", "#fbffcc"],
-            this_screen_border = colors [11],
-			foreground = colors[4],
-			background = colors[0],
+			this_current_screen_border = colors["yellow"],
+            this_screen_border = colors ["comment"],
+			foreground = colors["comment"],
+			background = colors["selection"],
 			urgent_alert_method = 'border',
 		),
-        # colors = [["#2e3440", "#2e3440"],  
-        #   ["#4c566a", "#4c566a"], 
-        #   ["#88c0d0", "#88c0d0"], 
-        #   ["#434c5e", "#434c5e"], 
-        #   ["#3b4252", "#3b4252"], 
-        #   ["#81a1c1", "#81a1c1"], 
-        #   ["#5e81ac", "#5e81ac"], 
-        #   ["#eceff4", "#eceff4"],
-        #   ["#d8dee9", "#d8dee9"]]
-        # widget.TextBox(
-        #     font = 'Unifont',
-        #     text = '',
-        #     background = colors[1],
-        #     foreground = colors[0],
-        #     padding = 0,
-        #     fontsize = 20,
-        # ),
-
-
 		widget.Sep(
 			linewidth = 0,
 			padding = 10,
-			foreground = colors[1],
-			background = colors[1]
+			foreground = colors["background"],
+			background = colors["background"]
 		),
 		widget.Spacer(
 			length=bar.STRETCH,
@@ -403,90 +369,51 @@ def init_widgets_list():
 		widget.WindowName(
             font="JetBrainsMono Nerd Font",
 			fontsize = 14,
-			foreground = colors[5],
-			background = colors[1],
+			foreground = colors["foreground"],
+			background = colors["background"],
 			empty_group_string = ':: Anand Dubey ::',
 			max_chars = 40,
 		),
 		widget.Spacer(
 			length=bar.STRETCH,
 		),
-
-		# widget.Sep(
-		# 	linewidth = 0,
-		# 	padding = 10,
-		# 	foreground = colors[0],
-		# 	background = colors[1]
-		# ),
-        # widget.TextBox(
-		# 	font="FontAwesome Bold",
-		# 	text="",
-		# 	foreground=colors[5],
-		# 	background=colors[1],
-		# 	fontsize=30
-		# ),
-		# widget.CheckUpdates(
-		# 	font = 'JetBrainsMono Nerd Font Bold',
-		# 	fontsize = 14,
-		# 	update_interval = 1,
-		# 	distro = 'Arch_checkupdates',
-		# 	display_format = " {updates}",
-		# 	foreground = colors[5],
-		# 	mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e sudo pacman -Syu')},
-		# 	background = colors[1],
-		# ),
-		# widget.Sep(
-		# 	linewidth = 0,
-		# 	padding = 10,
-		# 	foreground = colors[0],
-		# 	background = colors[1]
-		# ),
-
         widget.Sep(
 			linewidth = 0,
 			padding = 10,
-			foreground = colors[0],
-			background = colors[0]
+			foreground = colors["selection"],
+			background = colors["selection"]
 		),
-
         widget.CurrentLayoutIcon(
 			custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
-			foreground = colors[2],
-			background = colors[0],
+			foreground = colors["orange"],
+			background = colors["selection"],
 			padding = 0,
 			scale = 0.5
 		),
-		# widget.CurrentLayout(
-		# 	font = "JetBrainsMono Nerd Font Bold",
-		# 	fontsize = 14,
-		# 	foreground = colors[2],
-		# 	background = colors[0]
-		# ),
-
         widget.Sep(
 			linewidth = 0,
 			padding = 10,
-			foreground = colors[0],
-			background = colors[0]
+			foreground = colors["selection"],
+			background = colors["selection"]
 		),
         widget.Sep(
 			linewidth = 0,
 			padding = 10,
-			foreground = colors[1],
-			background = colors[1]
+			foreground = colors["background"],
+			background = colors["background"]
 		),
 		widget.TextBox(
 			font="FontAwesome Bold",
 			text="",
-			foreground="#d19a66",
-			background=colors[1],
+			foreground=colors["orange"],
+			background=colors["background"],
 			fontsize=26
 		),
 		widget.Sep(
 			linewidth = 0,
 			padding = 3,
-			foreground = colors[1],
-			background = colors[1]
+			foreground = colors["background"],
+			background = colors["background"]
 		),
 
 		widget.Memory(
@@ -494,87 +421,73 @@ def init_widgets_list():
 			format = '{MemUsed:.0f} MB',
 			update_interval = 1,
 			fontsize = 14,
-			foreground = colors[5],
-			background = colors[1],
+			foreground = colors["foreground"],
+			background = colors["background"],
 			mouse_callbacks = {'Button1': lambda : qtile.cmd_spawn(myTerm + ' -e bpytop')},
 		),
 		widget.Sep(
 			linewidth = 0,
 			padding = 10,
-			foreground = colors[1],
-			background = colors[1]
+			foreground = colors["background"],
+			background = colors["background"]
 		),
         widget.Sep(
 			linewidth = 0,
 			padding = 10,
-			foreground = colors[1],
-			background = colors[0]
+			foreground = colors["background"],
+			background = colors["selection"]
 		),
-        widget.TextBox(
-			font="FontAwesome Bold",
-			text="",
-			foreground=colors[5],
-			background=colors[0],
-			fontsize=36
-		),
+        widget.Image(
+            filename = "/usr/share/icons/Papirus-Dark/24x24/panel/battery-100.svg",
+            scale = "False",
+            margin = 0,
+            background = colors["selection"],
+            mouse_callbacks = {
+                'Button1': lambda: qtile.cmd_spawn(
+                    "rofi -no-lazy-grab -show drun -modi drun -theme\
+                     .config/rofi/launchers/misc/column.rasi"
+                    )
+            }
+        ),
+        # widget.TextBox(
+		# 	font="FontAwesome Bold",
+		# 	text="",
+		# 	foreground=colors["foreground"],
+		# 	background=colors["selection"],
+		# 	fontsize=36
+		# ),
         widget.Battery(
             font="Noto Sans",
             update_interval = 10,
             fontsize = 14,
             format = "{percent:2.0%}",
-            foreground = colors[5],
-            background = colors[0],
+            foreground = colors["foreground"],
+            background = colors["selection"],
             ),
         widget.Sep(
 			linewidth = 0,
 			padding = 10,
-			foreground = colors[0],
-			background = colors[0]
+			foreground = colors["selection"],
+			background = colors["selection"]
 		),
-		# widget.TextBox(
-		# 	font="FontAwesome Bold",
-		# 	text=" ",
-		# 	foreground=colors[7],
-		# 	background=colors[0],
-		# 	padding = 2,
-		# 	fontsize=32,
-        #     mouse_callbacks = {'Button1': lambda : qtile.cmd_spawn(myTerm + ' -e nmtui')},
-		# ),
-		# widget.Wlan(
-        #     font = 'JetBrainsMono Nerd Font',
-        #     fontsize = 14,
-        #     interface="wlp3s0",
-        #     disconnected_message = "Disconnected",
-        #     format = '',
-        #     update_interval = 3,
-        #     foreground=colors[5],
-        #     background=colors[0],
-        #     padding = 0,
-        # ),
-		# widget.Sep(
-        #     linewidth = 0,
-        #     padding = 10,
-        #     foreground = colors[0],
-        #     background = colors[0]
-        # ),
 		widget.Sep(
             linewidth = 0,
             padding = 10,
-            foreground = colors[1],
-            background = colors[1]
+            foreground = colors["background"],
+            background = colors["background"]
         ),
 
         widget.Sep(
 			linewidth = 0,
 			padding = 10,
-			foreground = colors[1],
-			background = colors[1]
+			foreground = colors["background"],
+			background = colors["background"]
 		),
 		widget.TextBox(
             font="FontAwesome Bold",
             text="",
-            foreground=colors[10],
-            background=colors[1],
+            foreground=colors["nord_cyan"],
+            background=colors["background"],
             padding = 0,
             fontsize=32
         ),
@@ -582,33 +495,33 @@ def init_widgets_list():
 		widget.Volume(
 			font = 'JetBrainsMono Nerd Font Bold',
             fontsize = 14,
-            foreground = colors[5],
-            background = colors[1],
+            foreground = colors["foreground"],
+            background = colors["background"],
             padding = 5
         ),
 		widget.Sep(
             linewidth = 0,
             padding = 10,
-            foreground = colors[1],
-            background = colors[1]
+            foreground = colors["background"],
+            background = colors["background"]
         ),
 		widget.Sep(
             linewidth = 0,
             padding = 15,
-            foreground = colors[0],
-            background = colors[0]
+            foreground = colors["selection"],
+            background = colors["selection"]
         ),
 		widget.TextBox(
             font="FontAwesome Bold",
             text=" ",
-            foreground=colors[12],
-            background=colors[0],
+            foreground=colors["green"],
+            background=colors["selection"],
             padding = 0,
             fontsize=23
         ),
 		widget.Clock(
-            foreground = colors[5],
-            background = colors[0],
+            foreground = colors["foreground"],
+            background = colors["selection"],
             font = 'JetBrainsMono Nerd Font Bold',
             fontsize = 14,
             format="%a, %d %b %Y"
@@ -616,20 +529,20 @@ def init_widgets_list():
 		widget.Sep(
             linewidth = 0,
             padding =5,
-            foreground = colors[5],
-            background = colors[0]
+            foreground = colors["selection"],
+            background = colors["selection"]
         ),
 		widget.TextBox(
             font="FontAwesome Bold",
             text="  ",
-            foreground=colors[12],
-            background=colors[0],
+            foreground=colors["green"],
+            background=colors["selection"],
             padding = 0,
-            fontsize=24
+            fontsize=26
         ),
 		widget.Clock(
-            foreground = colors[5],
-            background = colors[0],
+            foreground = colors["foreground"],
+            background = colors["selection"],
             font = 'JetBrainsMono Nerd Font Bold',
             fontsize = 14,
             format="%H:%M"
@@ -637,27 +550,60 @@ def init_widgets_list():
 		widget.Sep(
             linewidth = 0,
             padding = 10,
-            foreground = colors[5],
-            background = colors[0]
+            foreground = colors["selection"],
+            background = colors["selection"]
         ),
 		widget.Sep(
             linewidth = 0,
             padding = 10,
-            foreground = colors[1],
-            background = colors[1]
+            foreground = colors["background"],
+            background = colors["background"]
         ),
 
 		widget.Systray(
-            background = colors[1],
-            foreground = colors[1],
+            background = colors["background"],
+            foreground = colors["background"],
             icon_size=14,
             padding = 8
         ),
 		widget.Sep(
             linewidth = 0,
-            padding = 10,
-            foreground = colors[1],
-            background = colors[1],
+            padding = 15,
+            foreground = colors["background"],
+            background = colors["background"],
+        ),
+        widget.Sep(
+            linewidth = 0,
+			padding = 10,
+			foreground = colors["background"],
+			background = colors["red"],
+            mouse_callbacks = {
+                'Button1': lambda: qtile.cmd_spawn(
+                    "powermenu"
+                )
+            }
+        ),
+        widget.Image(
+            filename = "/usr/share/icons/Papirus-Dark/24x24/panel/system-shutdown-panel.svg",
+            scale = "False",
+            margin = 0,
+            background = colors["red"],
+            mouse_callbacks = {
+                'Button1': lambda: qtile.cmd_spawn(
+                    "powermenu"
+                )
+            }
+        ),
+        widget.Sep(
+            linewidth = 0,
+			padding = 10,
+			foreground = colors["background"],
+			background = colors["red"],
+            mouse_callbacks = {
+                'Button1': lambda: qtile.cmd_spawn(
+                    "powermenu"
+                )
+            }
         ),
     ]
     return widgets_list
@@ -790,9 +736,9 @@ floating_layout = layout.Floating(float_rules=[
     Match('wmclass = Lxpolkit'),
     Match('wmclass = yad'),
     Match('wmclass = Yad'),
-],  fullscreen_border_width = 0, border_width = 2, border_focus=colors[8][0], border_normal=colors[0][0])
+],  fullscreen_border_width = 0, border_width = 2, border_focus=colors["pink"][0], border_normal=colors["purple"][0])
 auto_fullscreen = True
 
-focus_on_window_activation = "focus" # or smart
+focus_on_window_activation = "focus"
 
-wmname = "LG3D"
+wmname = "qtile"

@@ -74,7 +74,7 @@ set t_Co=256
 
 " Enable airline
 "let g:airline_theme="onehalfdark"
-let g:airline_theme='monokai_tasty'
+let g:airline_theme='dracula'
 "let g:airline_powerline_fonts=1
 
 " Enable autocompletion:
