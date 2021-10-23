@@ -396,59 +396,53 @@ def init_widgets_list():
 			foreground = colors["selection"],
 			background = colors["selection"]
 		),
-        widget.Sep(
-			linewidth = 0,
-			padding = 10,
-			foreground = colors["background"],
-			background = colors["background"]
-		),
-		widget.TextBox(
-			font="FontAwesome Bold",
-			text="",
-			foreground=colors["orange"],
-			background=colors["background"],
-			fontsize=26
-		),
-		widget.Sep(
-			linewidth = 0,
-			padding = 3,
-			foreground = colors["background"],
-			background = colors["background"]
-		),
+        # widget.Sep(
+		# 	linewidth = 0,
+		# 	padding = 10,
+		# 	foreground = colors["background"],
+		# 	background = colors["background"]
+		# ),
+		# widget.TextBox(
+		# 	font="FontAwesome Bold",
+		# 	text="",
+		# 	foreground=colors["orange"],
+		# 	background=colors["background"],
+		# 	fontsize=26
+		# ),
+		# widget.Sep(
+		# 	linewidth = 0,
+		# 	padding = 3,
+		# 	foreground = colors["background"],
+		# 	background = colors["background"]
+		# ),
 
-		widget.Memory(
-			font="JetBrainsMono Nerd Font Bold",
-			format = '{MemUsed:.0f} MB',
-			update_interval = 1,
-			fontsize = 14,
-			foreground = colors["foreground"],
-			background = colors["background"],
-			mouse_callbacks = {'Button1': lambda : qtile.cmd_spawn(myTerm + ' -e bpytop')},
-		),
-		widget.Sep(
-			linewidth = 0,
-			padding = 10,
-			foreground = colors["background"],
-			background = colors["background"]
-		),
-        widget.Sep(
-			linewidth = 0,
-			padding = 10,
-			foreground = colors["background"],
-			background = colors["selection"]
-		),
-        widget.Image(
-            filename = "/usr/share/icons/Papirus-Dark/24x24/panel/battery-100.svg",
-            scale = "False",
-            margin = 0,
-            background = colors["selection"],
-            mouse_callbacks = {
-                'Button1': lambda: qtile.cmd_spawn(
-                    "rofi -no-lazy-grab -show drun -modi drun -theme\
-                     .config/rofi/launchers/misc/column.rasi"
-                    )
-            }
-        ),
+		# widget.Memory(
+		# 	font="JetBrainsMono Nerd Font Bold",
+		# 	format = '{MemUsed:.0f} MB',
+		# 	update_interval = 1,
+		# 	fontsize = 14,
+		# 	foreground = colors["foreground"],
+		# 	background = colors["background"],
+		# 	mouse_callbacks = {'Button1': lambda : qtile.cmd_spawn(myTerm + ' -e bpytop')},
+		# ),
+		# widget.Sep(
+		# 	linewidth = 0,
+		# 	padding = 10,
+		# 	foreground = colors["background"],
+		# 	background = colors["background"]
+		# ),
+        # widget.Sep(
+		# 	linewidth = 0,
+		# 	padding = 10,
+		# 	foreground = colors["background"],
+		# 	background = colors["selection"]
+		# ),
+        # widget.Image(
+        #     filename = "/usr/share/icons/Papirus-Dark/24x24/panel/battery-100.svg",
+        #     scale = "False",
+        #     margin = 0,
+        #     background = colors["selection"],
+        # ),
         # widget.TextBox(
 		# 	font="FontAwesome Bold",
 		# 	text="",
@@ -456,20 +450,20 @@ def init_widgets_list():
 		# 	background=colors["selection"],
 		# 	fontsize=36
 		# ),
-        widget.Battery(
-            font="Noto Sans",
-            update_interval = 10,
-            fontsize = 14,
-            format = "{percent:2.0%}",
-            foreground = colors["foreground"],
-            background = colors["selection"],
-            ),
-        widget.Sep(
-			linewidth = 0,
-			padding = 10,
-			foreground = colors["selection"],
-			background = colors["selection"]
-		),
+        # widget.Battery(
+        #     font="Noto Sans",
+        #     update_interval = 10,
+        #     fontsize = 14,
+        #     format = "{percent:2.0%}",
+        #     foreground = colors["foreground"],
+        #     background = colors["selection"],
+        #     ),
+        # widget.Sep(
+		# 	linewidth = 0,
+		# 	padding = 10,
+		# 	foreground = colors["selection"],
+		# 	background = colors["selection"]
+		# ),
 		widget.Sep(
             linewidth = 0,
             padding = 10,
@@ -572,39 +566,39 @@ def init_widgets_list():
             foreground = colors["background"],
             background = colors["background"],
         ),
-        widget.Sep(
-            linewidth = 0,
-			padding = 10,
-			foreground = colors["background"],
-			background = colors["red"],
-            mouse_callbacks = {
-                'Button1': lambda: qtile.cmd_spawn(
-                    "powermenu"
-                )
-            }
-        ),
-        widget.Image(
-            filename = "/usr/share/icons/Papirus-Dark/24x24/panel/system-shutdown-panel.svg",
-            scale = "False",
-            margin = 0,
-            background = colors["red"],
-            mouse_callbacks = {
-                'Button1': lambda: qtile.cmd_spawn(
-                    "powermenu"
-                )
-            }
-        ),
-        widget.Sep(
-            linewidth = 0,
-			padding = 10,
-			foreground = colors["background"],
-			background = colors["red"],
-            mouse_callbacks = {
-                'Button1': lambda: qtile.cmd_spawn(
-                    "powermenu"
-                )
-            }
-        ),
+        # widget.Sep(
+        #     linewidth = 0,
+		# 	padding = 10,
+		# 	foreground = colors["background"],
+		# 	background = colors["red"],
+        #     mouse_callbacks = {
+        #         'Button1': lambda: qtile.cmd_spawn(
+        #             "powermenu"
+        #         )
+        #     }
+        # ),
+        # widget.Image(
+        #     filename = "/usr/share/icons/Papirus-Dark/24x24/panel/system-shutdown-panel.svg",
+        #     scale = "False",
+        #     margin = 0,
+        #     background = colors["red"],
+        #     mouse_callbacks = {
+        #         'Button1': lambda: qtile.cmd_spawn(
+        #             "powermenu"
+        #         )
+        #     }
+        # ),
+        # widget.Sep(
+        #     linewidth = 0,
+		# 	padding = 10,
+		# 	foreground = colors["background"],
+		# 	background = colors["red"],
+        #     mouse_callbacks = {
+        #         'Button1': lambda: qtile.cmd_spawn(
+        #             "powermenu"
+        #         )
+        #     }
+        # ),
     ]
     return widgets_list
 

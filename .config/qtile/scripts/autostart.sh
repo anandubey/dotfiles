@@ -23,6 +23,7 @@ run dunst &
 #run optimus-manager-qt &
 run copyq &
 
+conky -c ~/.config/conky/.conkyrc &
 #/usr/lib/kdeconnectd &
 #starting user applications at boot time
 #run cbatticon &
