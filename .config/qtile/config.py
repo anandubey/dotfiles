@@ -268,8 +268,48 @@ def init_colors():
         "dark_purple"  : ["#715895", "#715895"],
         "brick_red"  : ["#715895", "#715895"],
     }
+    monokai = {
+        "background"    : ["#272822", "#272822"],
+        "foreground"    : ["#f8f8f2", "#f8f8f2"], 
+        "selection"     : ["#504945", "#504945"], 
+        "comment"       : ["#88846f", "#88846f"], 
+        "red"           : ["#e95678", "#e95678"], 
+        "orange"        : ["#FD971F", "#FD971F"], 
+        "yellow"        : ["#E6DB74", "#E6DB74"], 
+        "green"         : ["#A6E22E", "#A6E22E"], 
+        "purple"        : ["#AE81FF", "#AE81FF"], 
+        "cyan"          : ["#66D9EF", "#66D9EF"], 
+        "pink"          : ["#F92672", "#F92672"], 
+        "teal"          : ["#3a7575", "#3a7575"],
+        "nord_cyan"     : ["#88c0d0", "#88c0d0"],
+        "active"        : ["#b1b1b1", "#b1b1b1"],
+        "dark_purple"   : ["#3d5213", "#3d5213"],
+        "brick_red"     : ["#715895", "#715895"],
+    }
+    gruvbox_mix = {
+        "background"    : ["#272822", "#272822"],
+        "foreground"    : ["#e2cca9", "#e2cca9"], 
+        "selection"     : ["#414339", "#414339"], 
+        "comment"       : ["#88846f", "#88846f"], 
+        "red"           : ["#f2594b", "#f2594b"], 
+        "orange"        : ["#f28534", "#f28534"], 
+        "yellow"        : ["#E6DB74", "#E6DB74"], 
+        "green"         : ["#b0b846", "#b0b846"], 
+        "purple"        : ["#AE81FF", "#AE81FF"], 
+        "cyan"          : ["#8bba7f", "#8bba7f"], 
+        "pink"          : ["#d3869b", "#d3869b"], 
+        "teal"          : ["#3a7575", "#3a7575"],
+        "nord_cyan"     : ["#88c0d0", "#88c0d0"],
+        "active"        : ["#b1b1b1", "#b1b1b1"],
+        "dark_purple"   : ["#4b6616", "#4b6616"],
+        "brick_red"     : ["#715895", "#715895"],
+    }
 
-    return dracula
+
+# - **Pink**: (176, 82, 121); #b05279
+# - **Blue**: (108, 153, 187); #6c99bb
+
+    return monokai
 
 colors = init_colors()
 
@@ -318,13 +358,13 @@ def init_widgets_list():
             linewidth = 0,
 			padding = 5,
 			foreground = colors["background"],
-			background = colors["dark_purple"]
+			background = colors["red"]
         ),
         widget.Image(
             filename = "/usr/share/icons/manjaro/white/white.svg",
             scale = "True",
-            margin = 5,
-            background = colors["dark_purple"],
+            margin = 4,
+            background = colors["red"],
             mouse_callbacks = {
                 'Button1': lambda: qtile.cmd_spawn(
                     "rofi -no-lazy-grab -show drun -modi drun -theme\
@@ -336,7 +376,7 @@ def init_widgets_list():
             linewidth = 0,
 			padding = 5,
 			foreground = colors["background"],
-			background = colors["dark_purple"]
+			background = colors["red"]
         ),
 		widget.GroupBox(
 			font="FontAwesome",
@@ -351,7 +391,7 @@ def init_widgets_list():
 			inactive = colors["comment"],
 			rounded = False,
 			highlight_method = "text",
-			this_current_screen_border = colors["yellow"],
+			this_current_screen_border = colors["green"],
             this_screen_border = colors ["comment"],
 			foreground = colors["comment"],
 			background = colors["selection"],
@@ -368,7 +408,7 @@ def init_widgets_list():
 		),
 		widget.WindowName(
             font="JetBrainsMono Nerd Font",
-			fontsize = 14,
+			fontsize = 13,
 			foreground = colors["foreground"],
 			background = colors["background"],
 			empty_group_string = ':: Anand Dubey ::',
@@ -477,21 +517,30 @@ def init_widgets_list():
 			foreground = colors["background"],
 			background = colors["background"]
 		),
-		widget.TextBox(
-            font="FontAwesome Bold",
-            text="",
-            foreground=colors["nord_cyan"],
-            background=colors["background"],
-            padding = 0,
-            fontsize=32
-        ),
+		# widget.TextBox(
+        #     font="FontAwesome Bold",
+        #     text="",
+        #     foreground=colors["nord_cyan"],
+        #     background=colors["background"],
+        #     padding = 0,
+        #     fontsize=32
+        # ),
 
 		widget.Volume(
+			font = 'JetBrainsMono Nerd Font Bold',
+            fontsize = None,
+            padding = 1,
+            theme_path = '/home/bae/.config/qtile/icons/volume',
+            foreground = colors["foreground"],
+            background = colors["background"],
+            
+        ),
+        widget.Volume(
 			font = 'JetBrainsMono Nerd Font Bold',
             fontsize = 14,
             foreground = colors["foreground"],
             background = colors["background"],
-            padding = 5
+            padding = 1,
         ),
 		widget.Sep(
             linewidth = 0,
@@ -621,8 +670,8 @@ widgets_screen2 = init_widgets_screen2()
 
 def init_screens():
     return [
-        Screen(top=bar.Bar(widgets=init_widgets_screen1(), size=24, opacity=1)),
-        Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=24, opacity=1))
+        Screen(top=bar.Bar(widgets=init_widgets_screen1(), size=22, opacity=1)),
+        Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=22, opacity=1))
     ]
 screens = init_screens()
 

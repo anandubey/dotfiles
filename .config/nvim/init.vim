@@ -38,6 +38,8 @@ call plug#begin('~/.config/nvim/plugged')
 "Plug 'lifepillar/vim-gruvbox8'
 "Plug 'joshdick/onedark.vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
+"Plug 'tanvirtin/monokai.nvim'
+Plug 'sainnhe/gruvbox-material'
 "Plug 'patstockwell/vim-monokai-tasty'
 "Plug 'sonph/onehalf', { 'rtp': 'vim' }
 """""" airline
@@ -61,21 +63,36 @@ if (empty($TMUX))
 endif
 
 "colorscheme onehalfdark
-colorscheme dracula
+colorscheme gruvbox-material
 set t_Co=256
-"let g:onedark_termcolors=256
 
-"let g:gruvbox_filetype_hi_groups = 1
-"let g:gruvbox_italics = 1
-"let g:gruvbox_italicize_strings = 1
-"let g:gruvbox_transp_bg = 1
+let g:gruvbox_material_palette = "material"
+let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_enable_bold = 1
+let g:gruvbox_material_sign_column_background = 'none'
+
+let g:gruvbox_material_statusline_style = "material"
+let g:gruvbox_material_diagnostic_line_highlight = 1
 
 
+" Airline setup
+" let g:airline#extensions#ale#enabled = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_powerline_fonts = 1
+"let g:airline_symbols.linenr = '☰ '
+let g:airline_symbols.linenr = ''
+let g:airline_symbols.colnr = '::'
+let g:airline_symbols.maxlinenr = ''
+" Disable display of text encoding
+let g:airline_section_y = ''
+" let g:airline_section_z = airline#section#create_right(['linenr', 'maxlinenr'])
 
-" Enable airline
-"let g:airline_theme="onehalfdark"
-let g:airline_theme='dracula'
-"let g:airline_powerline_fonts=1
+" Do not draw separators for empty sections
+let g:airline_skip_empty_sections = 1
+
+let g:airline_theme='gruvbox_material'
 
 " Enable autocompletion:
     set wildmode=longest,list,full
