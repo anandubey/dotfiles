@@ -403,15 +403,15 @@ def init_widgets_list():
 			foreground = colors["background"],
 			background = colors["background"]
 		),
-		widget.Spacer(
-			length=bar.STRETCH,
-		),
+		#widget.Spacer(
+		#	length=bar.STRETCH,
+		#),
 		widget.WindowName(
             font="JetBrainsMono Nerd Font",
 			fontsize = 13,
 			foreground = colors["foreground"],
 			background = colors["background"],
-			empty_group_string = ':: Anand Dubey ::',
+			#empty_group_string = ':: Anand Dubey ::',
 			max_chars = 40,
 		),
 		widget.Spacer(
