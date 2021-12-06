@@ -10,6 +10,7 @@ require('whichkey-config')
 require('telescope-config')
 require('lsp-config')
 require('colorizer-config')
+require('zen-config')
 vim.cmd('colorscheme gruvbox-material')
 vim.g.gruvbox_material_palette = "mix"
 vim.g.gruvbox_material_background = "medium"

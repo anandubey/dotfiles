@@ -6,8 +6,13 @@ map('n', '<C-l>', '<C-w>l', {noremap = true, silent = false})
 map('n', '<C-j>', '<C-w>j', {noremap = true, silent = false})
 map('n', '<C-k>', '<C-w>k', {noremap = true, silent = false})
 
+
+map('n', '<C-p>', ':Telescope find_files<CR>', {noremap = true, silent = false})
+map('n', '<C-k>', ':ZenMode<CR>', {noremap = true, silent = true})
+
 map('i', 'jk', '<ESC>', {noremap = true, silent = false})
 map('i', 'kj', '<ESC>', {noremap = true, silent = false})
+map('i', '<ALT>', '<ESC>', {noremap = true, silent = false})
 
 map('n', '<leader>e', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
 

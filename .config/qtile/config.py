@@ -517,24 +517,30 @@ def init_widgets_list():
 			foreground = colors["background"],
 			background = colors["background"]
 		),
-		# widget.TextBox(
-        #     font="FontAwesome Bold",
-        #     text="",
-        #     foreground=colors["nord_cyan"],
-        #     background=colors["background"],
-        #     padding = 0,
-        #     fontsize=32
-        # ),
-
-		widget.Volume(
-			font = 'JetBrainsMono Nerd Font Bold',
-            fontsize = None,
-            padding = 1,
-            theme_path = '/home/bae/.config/qtile/icons/volume',
-            foreground = colors["foreground"],
-            background = colors["background"],
-            
+		widget.TextBox(
+            font="FontAwesome Bold",
+            text="",
+            foreground=colors["nord_cyan"],
+            background=colors["background"],
+            padding = 0,
+            fontsize=32
         ),
+        widget.Sep(
+            linewidth = 0,
+            padding = 5,
+            foreground = colors["background"],
+            background = colors["background"]
+        ),
+
+		# widget.Volume(
+		# 	font = 'JetBrainsMono Nerd Font Bold',
+        #     fontsize = None,
+        #     padding = 1,
+        #     theme_path = '/home/bae/.config/qtile/icons/volume',
+        #     foreground = colors["foreground"],
+        #     background = colors["background"],
+            
+        # ),
         widget.Volume(
 			font = 'JetBrainsMono Nerd Font Bold',
             fontsize = 14,
@@ -544,7 +550,7 @@ def init_widgets_list():
         ),
 		widget.Sep(
             linewidth = 0,
-            padding = 10,
+            padding = 15,
             foreground = colors["background"],
             background = colors["background"]
         ),
@@ -670,8 +676,13 @@ widgets_screen2 = init_widgets_screen2()
 
 def init_screens():
     return [
-        Screen(top=bar.Bar(widgets=init_widgets_screen1(), size=22, opacity=1)),
-        Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=22, opacity=1))
+        Screen(
+            top=bar.Bar(widgets=init_widgets_screen1(), size=22, opacity=1),
+        ),
+        Screen(
+            top=bar.Bar(widgets=init_widgets_screen2(), size=22, opacity=1),
+            
+        ),
     ]
 screens = init_screens()
 

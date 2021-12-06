@@ -1,7 +1,12 @@
 local wk = require("which-key")
 
 local mappings = {
-  q = {":q<CR>", "Quit"},
+    q = {
+        name = "Quit",
+        q = {":q<CR>", "Quit"},
+        w = {":wq<CR>", "Save & Quit"},
+        i = {":q!<CR>", "Reject & Quit"},
+    },
   Q = {":wq<CR>", "Save & Quit"},
   w = {":w<CR>", "Save"},
   x = {":bdelete<CR>", "Close Buffer"},

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+xrandr --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output eDP-1-1 --off --output DP-1-1 --off &
 function run {
   if ! pgrep $1 ;
   then
@@ -22,8 +22,8 @@ run flameshot &
 run dunst &
 #run optimus-manager-qt &
 run copyq &
-
-conky -c ~/.config/conky/.conkyrc &
+run redshift-gtk -l 48.666239:9.569250 -t 5600:5000 &
+#conky -c ~/.config/conky/.conkyrc &
 #/usr/lib/kdeconnectd &
 #starting user applications at boot time
 #run cbatticon &

@@ -29,5 +29,6 @@ return require('packer').startup(function()
   use 'onsails/lspkind-nvim'
 
   use 'norcalli/nvim-colorizer.lua'
+  use {"folke/zen-mode.nvim"}
 end)
 
