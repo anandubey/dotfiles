@@ -85,7 +85,13 @@ fi
 # enable substitution for prompt
 setopt prompt_subst
 
-PROMPT="%B%{$fg[blue]%}%(3~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})%{$reset_color%}%b "
+eval "$(starship init zsh)"
+function set_win_title(){
+    echo -ne "\033]0; $USER@$HOST:${PWD/$HOME/~} \007"
+}
+precmd_functions+=(set_win_title)
+
+#PROMPT="%B%{$fg[blue]%}%(3~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})%{$reset_color%}%b "
 #PROMPT="%B%{$fg[yellow]%}%(4~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})𒁷 %{$reset_color%}%b "
 #PROMPT="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
@@ -181,7 +187,7 @@ esac
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
 
 #Python virtual environment wrapper
-export WORKON_HOME=$HOME/.local/bin/.venv
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
-export VIRTUALENVWRAPPER_VIRTUALENV=$HOME/.local/bin/virtualenv
-source $HOME/.local/bin/virtualenvwrapper.sh
+#export WORKON_HOME=$HOME/.local/bin/.venv
+#export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
+#export VIRTUALENVWRAPPER_VIRTUALENV=$HOME/.local/bin/virtualenv
+#source $HOME/.local/bin/virtualenvwrapper.sh

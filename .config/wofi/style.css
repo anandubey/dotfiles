@@ -1,0 +1,86 @@
+/*
+scheme: "Gruvbox"
+author: "anandubey"
+*/
+
+@define-color base10 #666666;
+@define-color base00 #282828;
+@define-color base02 #4C4C4C;
+@define-color base03 #666860;
+@define-color base04 #F6EDD1;
+@define-color base05 #f9f4e3;
+@define-color base06 #fcf9f1;
+@define-color base07 #8FBCBB;
+@define-color base08 #85dacc;
+@define-color base09 #66D9EF;
+@define-color base0A #5E81AC;
+@define-color base0B #BF616A;
+@define-color base0C #ffb86c;
+@define-color base0D #E6DB74;
+@define-color base0E #66DDAA;
+@define-color base0F #a8a9eb;
+
+#entry {
+border-radius: 0px;
+padding: 5px 2px 5px 2px;
+margin: 0px 4px 0px 4px;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+#entry:selected {
+color: @base0D;
+background-color: @base02;
+padding: 7px;
+}
+ 
+#text:selected {
+color: @base0E;
+}
+ 
+#window {
+animation-name: fadeIn;
+animation-duration: 0.4s;
+background-color: transparent;
+font-family: JetBrains Mono Nerd Font;
+font-size:14;
+font-weight: 600;
+}
+
+#input {
+border: none;
+background-color: @base10;
+border-radius: 0px;
+margin: 4px 4px 8px 4px;
+padding: 8px;
+}
+
+#inner-box {
+color: @base04;
+border-radius: 0px;
+/* margin-right: 180px; */
+}
+
+#outer-box {
+background-color: @base00;
+border-radius: 0px;
+border: 1px solid @base0B;
+padding: 10px;
+box-shadow: 0px 0px 3px 1px  #0F0F0F;
+margin: 25px;
+}
+
+#scroll {
+}
+
+#text {
+color: @base04;
+background-color: transparent;
+} 
+
+#img {
+  background-color: transparent;
+}
