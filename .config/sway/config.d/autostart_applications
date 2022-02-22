@@ -50,3 +50,6 @@ exec tracker daemon -s
 
 # Cheatsheet
 exec micro ~/.config/sway/cheatsheet
+
+# Wallpaper
+exec ~/.config/sway/scripts/wallpaper.sh

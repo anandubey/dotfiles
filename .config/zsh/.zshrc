@@ -191,3 +191,4 @@ source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.
 #export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
 #export VIRTUALENVWRAPPER_VIRTUALENV=$HOME/.local/bin/virtualenv
 #source $HOME/.local/bin/virtualenvwrapper.sh
+. $HOME/.cargo/env
