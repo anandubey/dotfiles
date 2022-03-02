@@ -1,0 +1,15 @@
+anchor=bottom-center
+text-color=#f8f8f2
+background-color=#414339
+border-color=#ff79c6
+default-timeout=8000
+font=JetBrains Mono 11
+border-size=1
+border-radius=2
+margin=5
+
+[urgency=high]
+border-color=#FF0000
+default-timeout=0
+border-size=2
+layer=overlay

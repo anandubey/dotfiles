@@ -6,9 +6,10 @@
 #  /_/          /____/_/
 
 
+
 ## Options section
 setopt correct                                                  # Auto correct mistakes
-setopt extendedglob                                             # Extended globbing. Allows using regular expressions with *
+setopt extendedGlob                                             # Extended globbing. Allows using regular expressions with *
 setopt nocaseglob                                               # Case insensitive globbing
 setopt rcexpandparam                                            # Array expension with parameters
 setopt nocheckjobs                                              # Don't warn about running processes when exiting
@@ -18,6 +19,10 @@ setopt appendhistory                                            # Immediately ap
 setopt histignorealldups                                        # If a new command is a duplicate, remove the older one
 setopt autocd                                                   # if only directory path is entered, cd there.
 
+
+# Completion.
+autoload -Uz compinit
+compinit
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'       # Case insensitive tab completion
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"         # Colored completion (different colors for dirs/files/etc)
 zstyle ':completion:*' rehash true                              # automatically find new executables in path
@@ -25,13 +30,23 @@ zstyle ':completion:*' rehash true                              # automatically 
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.cache/zsh/cache
-HISTFILE=~/.cache/zsh/history
-HISTSIZE=1000
-SAVEHIST=500
-WORDCHARS=${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
 
-# Load aliases and shortcuts if existent.
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/aliasrc"
+zstyle ':completion:*' completer _expand _complete _ignored _approximate
+zstyle ':completion:*' menu select=2
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
+
+
+
+# Basic zsh config.
+umask 077
+HISTFILE=~/.cache/zsh/history
+HISTSIZE='128000'
+SAVEHIST='128000'
+WORDCHARS=${WORDCHARS//\/[&.;]}   
+
+
+
 
 ## Keybindings section
 bindkey -e
@@ -61,10 +76,13 @@ bindkey '^H' backward-kill-word                                 # delete previou
 bindkey '^[[Z' undo                                             # Shift+tab undo last action
 bindkey '5~' delete-word
 
-# Theming section
-autoload -U compinit colors zcalc
-compinit -d $HOME/.cache/zsh/zcompdump
-colors
+
+
+
+# Load aliases and shortcuts if existent.
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/aliasrc"
+
+
 
 # Color man pages
 export LESS_TERMCAP_mb=$'\E[01;32m'
@@ -77,118 +95,249 @@ export LESS_TERMCAP_us=$'\E[01;36m'
 export LESS=-r
 
 
-# Offer to install missing package if command is not found
-if [[ -r /usr/share/zsh/functions/command-not-found.zsh ]]; then
-    source /usr/share/zsh/functions/command-not-found.zsh
-    export PKGFILE_PROMPT_INSTALL_MISSING=1
+# Functions
+
+# Fancy cd that can cd into parent directory, if trying to cd into file.
+
+cd() {
+    if (( $+2 )); then
+        builtin cd "$@"
+        return 0
+    fi
+
+    if [ -f "$1" ]; then
+        echo "${yellow}cd ${1:h}${NC}" >&2
+        builtin cd "${1:h}"
+    else
+        builtin cd "${@}"
+    fi
+}
+
+
+reload () {
+    exec "${SHELL}" "$@"
+}
+
+escape() {
+    # Super useful when you need to translate weird as fuck path into single-argument string.
+    local escape_string_input
+    echo -n "String to escape: "
+    read escape_string_input
+    printf '%q\n' "$escape_string_input"
+}
+
+confirm() {
+    local answer
+    echo -ne "zsh: sure you want to run '${YELLOW}$*${NC}' [yN]? "
+    read -q answer
+        echo
+    if [[ "${answer}" =~ ^[Yy]$ ]]; then
+        command "${@}"
+    else
+        return 1
+    fi
+}
+
+confirm_wrapper() {
+    if [ "$1" = '--root' ]; then
+        local as_root='true'
+        shift
+    fi
+
+    local prefix=''
+
+    if [ "${as_root}" = 'true' ] && [ "${USER}" != 'root' ]; then
+        prefix="sudo"
+    fi
+    confirm ${prefix} "$@"
+}
+
+poweroff() { confirm_wrapper --root $0 "$@"; }
+reboot() { confirm_wrapper --root $0 "$@"; }
+hibernate() { confirm_wrapper --root $0 "$@"; }
+
+
+
+has() {
+    local string="${1}"
+    shift
+    local element=''
+    for element in "$@"; do
+        if [ "${string}" = "${element}" ]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+begin_with() {
+    local string="${1}"
+    shift
+    local element=''
+    for element in "$@"; do
+        if [[ "${string}" =~ "^${element}" ]]; then
+            return 0
+        fi
+    done
+    return 1
+
+}
+
+termtitle() {
+    case "$TERM" in
+        rxvt*|xterm*|nxterm|gnome|screen|screen-*|st|st-*)
+            local prompt_host="${(%):-%m}"
+            local prompt_user="${(%):-%n}"
+            local prompt_char="${(%):-%~}"
+            case "$1" in
+                precmd)
+                    printf '\e]0;%s@%s: %s\a' "${prompt_user}" "${prompt_host}" "${prompt_char}"
+                ;;
+                preexec)
+                    printf '\e]0;%s [%s@%s: %s]\a' "$2" "${prompt_user}" "${prompt_host}" "${prompt_char}"
+                ;;
+            esac
+        ;;
+    esac
+}
+
+setup_git_prompt() {
+    if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        unset git_prompt
+        return 0
+    fi
+
+    local git_status_dirty git_status_stash git_branch
+
+    if [ "$(git --no-optional-locks status --untracked-files='no' --porcelain)" ]; then
+        git_status_dirty='%F{green}*'
+    else
+        unset git_status_dirty
+    fi
+
+    if [ "$(git stash list)" ]; then
+        git_status_stash="%F{yellow}▲"
+    else
+        unset git_status_stash
+    fi
+
+    git_branch="$(git symbolic-ref HEAD 2>/dev/null)"
+    git_branch="${git_branch#refs/heads/}"
+
+    if [ "${#git_branch}" -ge 24 ]; then
+        git_branch="${git_branch:0:21}..."
+    fi
+
+    git_branch="${git_branch:-no branch}"
+
+    git_prompt=" %F{blue}[%F{253}${git_branch}${git_status_dirty}${git_status_stash}%F{blue}]"
+
+}
+
+precmd() {
+    # Set terminal title.
+    termtitle precmd
+
+    # Set optional git part of prompt.
+    setup_git_prompt
+
+}
+
+preexec() {
+    # Set terminal title along with current executed command pass as second argument
+    termtitle preexec "${(V)1}"
+
+#   # Save timestamp when we executed this command
+#   executed_on=${(%):-'%D{%s}'}
+}
+
+
+dot_progress() {
+    # Fancy progress function from Landley's Aboriginal Linux.
+    # Useful for long rm, tar and such.
+    # Usage: 
+    #     rm -rfv /foo | dot_progress
+    local i='0'
+    local line=''
+
+    while read line; do
+        i="$((i+1))"
+        if [ "${i}" = '25' ]; then
+            printf '.'
+            i='0'
+        fi
+    done
+    printf '\n'
+}
+
+
+
+# Theming section
+autoload -U compinit colors zcalc
+compinit -d $HOME/.cache/zsh/zcompdump
+colors
+
+# # zmv -  a command for renaming files by means of shell patterns.
+# autoload -U zmv
+
+# # zargs, as an alternative to find -exec and xargs.
+# autoload -U zargs
+
+# Turn on command substitution in the prompt (and parameter expansion and arithmetic expansion).
+setopt promptsubst
+
+
+# Prevent insert key from changing input mode.
+# (switch to Emacs mode)
+bindkey -e
+
+# Control-x-e to open current line in $EDITOR, awesome when writting functions or editing multiline commands.
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
+
+
+
+# If running as root and nice >0, renice to 0.
+if [ "$USER" = 'root' ] && [ "$(cut -d ' ' -f 19 /proc/$$/stat)" -gt 0 ]; then
+    renice -n 0 -p "$$" && echo "# Adjusted nice level for current shell to 0."
 fi
-# enable substitution for prompt
-setopt prompt_subst
-
-eval "$(starship init zsh)"
-function set_win_title(){
-    echo -ne "\033]0; $USER@$HOST:${PWD/$HOME/~} \007"
-}
-precmd_functions+=(set_win_title)
-
-#PROMPT="%B%{$fg[blue]%}%(3~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})%{$reset_color%}%b "
-#PROMPT="%B%{$fg[yellow]%}%(4~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})𒁷 %{$reset_color%}%b "
-#PROMPT="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
 
-# Print a greeting message when shell is started
-#pfetch
 
-colorscript random
-## Prompt on right side:
-#  - shows status of git when in git repository (code adapted from https://techanic.net/2012/12/30/my_git_prompt_for_zsh.html)
-#  - shows exit status of previous command (if previous command finished with an error)
-#  - is invisible, if neither is the case
-
-# Modify the colors and symbols in these variables as desired.
-GIT_PROMPT_SYMBOL="%{$fg[blue]%}"                              # plus/minus     - clean repo
-GIT_PROMPT_BRANCH="︁"
-GIT_PROMPT_PREFIX="%{$fg[green]%}%{$reset_color%}"
-GIT_PROMPT_SUFFIX="%{$fg[green]%}%{$reset_color%}"
-GIT_PROMPT_AHEAD="%{$fg[red]%}ANUM%{$reset_color%}"             # A"NUM"         - ahead by "NUM" commits
-GIT_PROMPT_BEHIND="%{$fg[cyan]%}BNUM%{$reset_color%}"           # B"NUM"         - behind by "NUM" commits
-GIT_PROMPT_MERGING="%{$fg_bold[magenta]%}⚡︎%{$reset_color%}"     # lightning bolt - merge conflict
-GIT_PROMPT_UNTRACKED="%{$fg_bold[red]%}[︁%{$reset_color%}"       # red circle     - untracked files
-GIT_PROMPT_MODIFIED="%{$fg_bold[yellow]%}] %{$reset_color%}"     # yellow circle  - tracked files modified
-GIT_PROMPT_STAGED="%{$fg_bold[green]%}●%{$reset_color%}"        # green circle   - staged changes present = ready for "git push"
-
-parse_git_branch() {
-  # Show Git branch/tag, or name-rev if on detached head
-  ( git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD ) 2> /dev/null
-}
-
-parse_git_state() {
-  # Show different symbols as appropriate for various Git repository states
-  # Compose this value via multiple conditional appends.
-  local GIT_STATE=""
-  local NUM_AHEAD="$(git log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')"
-  if [ "$NUM_AHEAD" -gt 0 ]; then
-    GIT_STATE=$GIT_STATE${GIT_PROMPT_AHEAD//NUM/$NUM_AHEAD}
-  fi
-  local NUM_BEHIND="$(git log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
-  if [ "$NUM_BEHIND" -gt 0 ]; then
-    GIT_STATE=$GIT_STATE${GIT_PROMPT_BEHIND//NUM/$NUM_BEHIND}
-  fi
-  local GIT_DIR="$(git rev-parse --git-dir 2> /dev/null)"
-  if [ -n $GIT_DIR ] && test -r $GIT_DIR/MERGE_HEAD; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_MERGING
-  fi
-  if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_UNTRACKED
-  fi
-  if ! git diff --quiet 2> /dev/null; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_MODIFIED
-  fi
-  if ! git diff --cached --quiet 2> /dev/null; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_STAGED
-  fi
-  if [[ -n $GIT_STATE ]]; then
-    echo "$GIT_PROMPT_PREFIX$GIT_STATE$GIT_PROMPT_SUFFIX"
-  fi
-}
-
-git_prompt_string() {
-  local git_where="$(parse_git_branch)"
-
-  # If inside a Git repository, print its branch and state
-  [ -n "$git_where" ] && echo "$GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_BRANCH(%{$fg[cyan]%}${git_where#(refs/heads/|tags/)}%{$reset_color%})"
-
-  # If not inside the Git repo, print exit codes of last command (only if it failed)
-  [ ! -n "$git_where" ] && echo "%{$fg[red]%} %(?..[%?])"
-}
-
-# Right prompt with exit status of previous command if not successful
- #RPROMPT="%{$fg[red]%} %(?..[%?])"
-# Right prompt with exit status of previous command marked with ✓ or ✗
+PROMPT="%B%{$fg[blue]%}%(3~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})%{$reset_color%}%b "
+RPROMPT='${git_prompt}%B%{$fg[blue]%}%(basename \"$VIRTUAL_ENV)%u%b'
 
 
-# Apply different settigns for different terminals
-case $(basename "$(cat "/proc/$PPID/comm")") in
-  login)
-    	#RPROMPT="%{$fg[red]%} %(?..[%?])"
-        RPROMPT="%(?.%{$fg[green]%}✓ %{$reset_color%}.%{$fg[red]%}✗ %{$reset_color%})"
-    	alias x='startx ~/.xinitrc'      # Type name of desired desktop after x, xinitrc is configured for it
-    ;;
-  *)
-        RPROMPT='$(git_prompt_string)%B%{$fg[blue]%}%(basename \"$VIRTUAL_ENV)%u%b'
-		# Use autosuggestion
-		source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-		ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-  		ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
-    ;;
-esac
+
+# Keep history of `cd` as in with `pushd` and make `cd -<TAB>` work.
+DIRSTACKSIZE=16
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt pushd_minus
+
+# Ignore lines prefixed with '#'.
+setopt interactivecomments
+
+# Ignore duplicate in history.
+setopt hist_ignore_dups
+
+# Prevent record in history entry if preceding them with at least one space
+setopt hist_ignore_space
+
+# Nobody need flow control anymore. Troublesome feature.
+#stty -ixon
+setopt noflowcontrol
+
+
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
 #Load fast syntax highlighting
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
 
-#Python virtual environment wrapper
-#export WORKON_HOME=$HOME/.local/bin/.venv
-#export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
-#export VIRTUALENVWRAPPER_VIRTUALENV=$HOME/.local/bin/virtualenv
-#source $HOME/.local/bin/virtualenvwrapper.sh
-. $HOME/.cargo/env
+
+#if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
+#  exec sway
+#fi

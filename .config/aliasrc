@@ -9,6 +9,17 @@
 #  /_/          /____/_/
 
 
+# Verbose mode for general commands
+alias cp='cp -iv --reflink=auto'
+alias mv='mv -iv'
+alias rm='rm -v'
+alias rm-r='rm -r'
+alias ln='ln -v'
+alias chmod="chmod -c"
+alias chown="chown -c"
+alias mkdir="mkdir -v"
+
+
 # Colorize commands when possible.
 alias ls="exa -al --color=always --group-directories-first --icons"
 alias grep="grep --color=auto"
@@ -38,12 +49,15 @@ alias cat="bat --style header --style rules --style snip --style changes --style
 alias la="exa -a --color=always --group-directories-first --icons"
 alias ll="exa -l --color=always --group-directories-first --icons"
 alias l.="exa -a | egrep '^\.'"
-alias top="bpytop"
+alias top="btop"
 # Get Clutter-free Hardware info
 alias hw="hwinfo --short"
 
-# Cleanup orphaned packages
-alias cleanup="sudo pacman -Rns (pacman -Qtdq)"
+# Package management
+alias pacsync="sudo pacman -Sy"
+alias pacupdate="sudo pacman -Syu"
+alias pacinstall="sudo pacman -S"
+alias cleanup="sudo pacman -Rns $(pacman -Qtdq)"
 
 #Get the error messages from journalctl
 alias jctl="journalctl -p 3 -xb"

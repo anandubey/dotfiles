@@ -8,8 +8,11 @@ gaps outer 5
 # Hide titlebar on windows: 
 default_border pixel 1
 
+# Wallpaper
+output * bg $HOME/Pictures/wallpapers/groovy-arch.png center
+
 # Default Font
-font pango:Noto Sans Regular 12
+font pango:Noto Sans Regular 10
 
 # Thin borders:
 smart_borders on
@@ -20,15 +23,14 @@ for_window [shell="x_wayland"] title_format "%class - %title"
 
 ## Window decoration
 # class                 border  backgr. text    indicator child_border
-client.focused          #88c0d0 #434c5e #eceff4 #8fbcbb   #88c0d0
-client.focused_inactive #88c0d0 #2e3440 #d8dee9 #4c566a   #4c566a
-client.unfocused        #88c0d0 #2e3440 #d8dee9 #4c566a   #4c566a
-client.urgent           #ebcb8b #ebcb8b #2e3440 #8fbcbb   #ebcb8b
+client.focused          #a8a9eb #414339 #F6EDD1 #a8a9eb   #a8a9eb 
+client.focused_inactive #a8a9eb #282828 #F6EDD1 #414339   #414339
+client.unfocused        #a8a9eb #282828 #F6EDD1 #414339   #414339
+client.urgent           #ffb86c #ffb86c #282828 #a8a9eb   #ffb86c
 
-#
+
 # Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
+
 bar {
    swaybar_command waybar
 }

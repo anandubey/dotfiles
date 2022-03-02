@@ -21,7 +21,7 @@ author: "anandubey"
 @define-color base0F #a8a9eb;
 
 #entry {
-border-radius: 0px;
+border-radius: px;
 padding: 5px 2px 5px 2px;
 margin: 0px 4px 0px 4px;
 }
@@ -32,13 +32,13 @@ margin: 0px 4px 0px 4px;
 }
 
 #entry:selected {
-color: @base0D;
-background-color: @base02;
+color: @base04;
+background-color: #40554F;
 padding: 7px;
 }
  
 #text:selected {
-color: @base0E;
+color: @base06;
 }
  
 #window {
@@ -47,12 +47,12 @@ animation-duration: 0.4s;
 background-color: transparent;
 font-family: JetBrains Mono Nerd Font;
 font-size:14;
-font-weight: 600;
+font-weight: 500;
 }
 
 #input {
 border: none;
-background-color: @base10;
+background-color: #3f3f3f;
 border-radius: 0px;
 margin: 4px 4px 8px 4px;
 padding: 8px;
@@ -67,9 +67,8 @@ border-radius: 0px;
 #outer-box {
 background-color: @base00;
 border-radius: 0px;
-border: 1px solid @base0B;
+border: 2px solid @base02;
 padding: 10px;
-box-shadow: 0px 0px 3px 1px  #0F0F0F;
 margin: 25px;
 }
 
