@@ -27,7 +27,7 @@ window#waybar {
     font-family: 'Font Awesome 6 Free Solid';
     font-size: 14px;
     color: #5d6061;
-    padding: 0 7px 0 1px;
+    padding: 0 5px 0 0;
     margin: 0 5px 0 5px;
     border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
@@ -35,6 +35,10 @@ window#waybar {
 	border-bottom-right-radius: 0;
 }
 
+#workspaces button#sway-workspace-3{
+    font-size: 16px;
+    padding: 0 5px 0 5px;
+}
 #workspaces button#sway-workspace-1.current_output {
     color:#89b482;
 }
@@ -77,7 +81,7 @@ window#waybar {
 #custom-seperator{
     font-family: 'Font Awesome 6 Free Solid';
     font-size: 16px;
-    color: #7d7e7e;
+    color: #5a5d5e;
     margin: 0 0 0 14px;
 }
 #window{
@@ -114,7 +118,7 @@ window#waybar {
     font-size: 12px;
     color: #89b482;
     background-color: #2b2e2f;
-    padding: 0 15px 0 15px;
+    padding: 0 10px 0 10px;
     border-bottom: 1px solid #89b482;
 }
 #pulseaudio.source-control{
@@ -124,7 +128,7 @@ window#waybar {
     font-size: 13px;
     color: #c7b89d;
     background-color: #2b2e2f;
-    padding: 0 0px 0 0px;
+    padding: 0 10px 0 10px;
     border-bottom: 1px solid #89b482;
 }
 #pulseaudio.sink.muted, #pulseaudio.sink-icon-control.muted {
@@ -132,8 +136,17 @@ window#waybar {
     background-color: #ec6b64;
     border-bottom: 0px;
 }
+#pulseaudio.sink-icon-control.muted {
+    padding: 0 10px 0 10px
+}
 #pulseaudio.sink.muted {
     padding: 0 10px 0 0;
+}
+#pulseaudio.source-control.source-muted{
+    color: #1e2122;
+    padding: 0 10px 0 10px;
+    background-color: #ec6b64;
+    border-bottom: 0px;
 }
 
 
@@ -174,8 +187,16 @@ window#waybar {
  *  NETWORK
  * 
  * ==========================================================================*/
+
+#network.icon{
+    font-family: 'Material Design Icons';
+    font-size: 15px;
+    color: #2b2e2f;
+    background-color: #89b482;
+    padding: 0 8px 0 8px;
+}
 #custom-network-icon{
-    font-family: 'Font Awesome 6 Free Solid';
+    font-family: 'Material Design Icons';
     font-size: 15px;
     color: #2b2e2f;
     background-color: #89b482;
@@ -186,7 +207,7 @@ window#waybar {
     color: #89b482;
     background-color: #2b2e2f;
     padding: 0 10px 0 10px;
-    margin: 0 10px 0 0;
+    margin: 0 0 0 0;
     border-bottom: 1px solid #89b482;
 }
 #network.disabled {
@@ -194,6 +215,7 @@ window#waybar {
 }
 #network.disconnected {
     color: #1e2122;
+    border-bottom: 0px;
     background-color: #ec6b64;
 }
 
@@ -209,7 +231,7 @@ window#waybar {
     font-family: 'Font Awesome 6 Free Solid';
     font-size: 15px;
     color: #1e2122;
-    background-color: #75a7d0;
+    background-color: #6080a0;
     padding: 0 8px 0 8px;
 }
 #custom-clock-date-icon{
@@ -219,11 +241,45 @@ window#waybar {
 #clock{
     font-size: 13px;
     color: #1e2122;
-    background-color: #96CDFB;
+    background-color: #6f8faf; 
     padding: 0 10px 0 6px;
 }
 
-
+/*   
+local colors = {
+    white = "#c7b89d",
+    darker_black = "#1a1d1e",
+    black = "#1e2122", --  nvim bg
+    black2 = "#232627",
+    one_bg = "#282b2c",
+    one_bg2 = "#393c3d",
+    one_bg3 = "#404344",
+    grey = "#484b4c",
+    grey_fg = "#575a5b",
+    grey_fg2 = "#545758",
+    light_grey = "#5a5d5e",
+    red = "#ec6b64",
+    baby_pink = "#ce8196",
+    pink = "#ff75a0",
+    line = "#2c2f30", -- for lines like vertsplit
+    green = "#89b482",
+    vibrant_green = "#a9b665",
+    nord_blue = "#6f8faf",
+    blue = "#6d8dad",
+    yellow = "#d6b676",
+    sun = "#d1b171",
+    purple = "#b4bbc8",
+    dark_purple = "#cc7f94",
+    teal = "#749689",
+    orange = "#e78a4e",
+    cyan = "#82b3a8",
+    statusline_bg = "#222526",
+    lightbg = "#2d3031",
+    lightbg2 = "#252829",
+    pmenu_bg = "#89b482",
+    folder_bg = "#6d8dad",
+ }
+ */
 
 /* ============================================================================
  *  

@@ -3,7 +3,7 @@
 # daemonize
 indicator-caps-lock
 # datestr=%A
-image=$HOME/.config/swaylock/swaylock.png
+image=$HOME/Pictures/wallpapers/groovy-arch.png
 scaling=fill
 font=UbuntuMono
 font-size=20

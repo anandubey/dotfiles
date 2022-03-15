@@ -2,10 +2,27 @@
     "layer": "top",
     "position": "bottom",
     "height": 16,
-    "modules-left": ["sway/workspaces", "custom/seperator", "sway/window"],
-    "modules-center": [],
-    "modules-right": ["idle_inhibitor", "pulseaudio#sink-icon-control", "pulseaudio#sink", "pulseaudio#source-control", "battery", "custom/memory-icon", "memory", "custom/network-icon", "network", "custom/clock-time-icon", "clock", "custom/clock-date-icon", "clock#date"],
+    "modules-left": ["custom/clock-time-icon", "clock", "custom/clock-date-icon", "clock#date", "sway/window"],
+    "modules-center": ["sway/workspaces"],
+    "modules-right": ["idle_inhibitor", "pulseaudio#sink-icon-control", "pulseaudio#sink", "pulseaudio#source-control", "battery", "custom/memory-icon", "memory", "network", "network#icon"],
     
+
+    "wlr/taskbar": {
+        "all-outputs": false,
+        "format": "{icon}",
+        "active-first": true,
+        "icon-size": 14,
+        "icon-theme": "candy-icons",
+        "tooltip-format": "{title}",
+        "on-click": "activate",
+        "on-click-middle": "close",
+        "ignore-list": [
+            "Alacritty"
+        ],
+        "app_ids-mapping": {
+                "firefoxdeveloperedition": "firefox-developer-edition"
+        }
+    },
 
     "sway/workspaces": {
         "disable-scroll": false,
@@ -14,9 +31,10 @@
         "format-icons": {
             "1": "",
             "2": "",
-            "3": "",
+            "3": "󰨞",
             "4": "",
-            "5": "",
+            "5": "",
+            "6": "",
             "urgent": "",
             "focused": "",
             "default": ""
@@ -125,12 +143,22 @@
 
 
     "custom/network-icon" : {
-        "format" : "󰤨",
+        "format" : "   ",
         "tooltip": false
     },
+    "network#icon": {
+        "format": "Disabled",
+        "format-wifi": "{icon}",
+        "tooltip-format-wifi": "󰖩:{signalStrength}%  󰁊:{bandwidthDownBits} 󰁢:{bandwidthUpBits}",
+        "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
+        "format-disconnected": "󰤭",
+        "on-click": "alacritty -e nmtui",
+        "format-icons": ["󰤯", "󰤟", "󰤢", "󰤨"]
+    },
     "network": {
-        "format": "⚠ Disabled",
-        "format-wifi": "{essid}",
+        "format": "Disabled",
+        "format-wifi": "{ipaddr}",
+        "tooltip-format-wifi": "{ifname} : {essid}",
         "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
         "format-disconnected": "Disconnected",
         "on-click": "alacritty -e nmtui"
@@ -138,7 +166,7 @@
 
 
     "custom/clock-time-icon": {
-        "format" : "󱑆",
+        "format" : "󱑁",
         "tooltip": false
     },
     "clock": {

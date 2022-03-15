@@ -10,7 +10,7 @@
 
 
 # Verbose mode for general commands
-alias cp='cp -v --reflink=auto'
+alias cp='cp -rv --reflink=auto'
 alias mv='mv -iv'
 alias rm='rm -v'
 alias rm-r='rm -r'
