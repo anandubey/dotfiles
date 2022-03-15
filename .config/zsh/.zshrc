@@ -1,10 +1,9 @@
-#             ______            __
-#      ____  / ______  ______  / /_  ___  _____
-#     / __ \/___ \/ / / / __ \/ __ \/ _ \/ ___/
-#    / /_/ ____/ / /_/ / /_/ / / / /  __/ /
-#   / .___/_____/\__, / .___/_/ /_/\___/_/
-#  /_/          /____/_/
-
+#==============================================================================
+#                                                                             !
+#                           ZSH config                                        !
+#                       @author:- anandubey                                   !
+#                                                                             !
+#==============================================================================
 
 
 ## Options section
@@ -22,7 +21,7 @@ setopt autocd                                                   # if only direct
 
 # Completion.
 autoload -Uz compinit
-compinit
+compinit -d ~/.cache/zsh/zcompdump
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'       # Case insensitive tab completion
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"         # Colored completion (different colors for dirs/files/etc)
 zstyle ':completion:*' rehash true                              # automatically find new executables in path
@@ -274,7 +273,6 @@ dot_progress() {
 
 # Theming section
 autoload -U compinit colors zcalc
-compinit -d $HOME/.cache/zsh/zcompdump
 colors
 
 # # zmv -  a command for renaming files by means of shell patterns.
@@ -303,7 +301,7 @@ if [ "$USER" = 'root' ] && [ "$(cut -d ' ' -f 19 /proc/$$/stat)" -gt 0 ]; then
     renice -n 0 -p "$$" && echo "# Adjusted nice level for current shell to 0."
 fi
 
-
+$HOME/.config/sway/scripts/fetch
 
 PROMPT="%B%{$fg[blue]%}%(3~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})%{$reset_color%}%b "
 RPROMPT='${git_prompt}%B%{$fg[blue]%}%(basename \"$VIRTUAL_ENV)%u%b'

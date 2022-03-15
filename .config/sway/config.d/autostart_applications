@@ -14,7 +14,7 @@ exec python3 ~/.config/sway/scripts/swayfader.py
  
 # Wob
 exec mkfifo $SWAYSOCK.wob
-exec tail -f $SWAYSOCK.wob | wob --border-color '#66DDAAFF' --background-color '#272822FF' --bar-color '#66DDAAFF'
+exec tail -f $SWAYSOCK.wob | wob -b 3 -p 2 --border-color '#75a7d0FF' --background-color '#2b2e2fFF' --bar-color '#96CDFBFF'
 
 # Autotiling
 exec autotiling
@@ -22,11 +22,7 @@ exec autotiling
 # Night Light
 exec ~/.config/sway/scripts/light.sh
 
-# nm-applet
-exec nm-applet --indicator
 
-# Welcome
-exec dex -a -s /etc/xdg/autostart/:~/.config/autostart/
 
 # Clipman
 exec clipman restore

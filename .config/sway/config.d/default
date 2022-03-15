@@ -1,14 +1,14 @@
-#             ______            __
-#      ____  / ______  ______  / /_  ___  _____
-#     / __ \/___ \/ / / / __ \/ __ \/ _ \/ ___/
-#    / /_/ ____/ / /_/ / /_/ / / / /  __/ /
-#   / .___/_____/\__, / .___/_/ /_/\___/_/
-#  /_/          /____/_/
-#
+#==============================================================================
+#                                                                             !
+#                        Sway Default Config                                  !
+#                       @author:- anandubey                                   !
+#                                                                             !
+#==============================================================================
 
 
 # Mod4 - Win key, Mod1 - Alt Key
 set $mod Mod4
+set $alt Mod1
 
 # Set Directions
 set $left h
@@ -148,19 +148,26 @@ bindsym $mod+Shift+space focus mode_toggle
 
 # Make the currently focused window a scratchpad
 bindsym $mod+Shift+Grave move scratchpad
+bindsym $mod+Shift+g move scratchpad
 
 # Show the first scratchpad window
 bindsym $mod+Grave scratchpad show
+bindsym $mod+g scratchpad show
 
 
 ###############################################################################
 ########################## Resizing containers ################################
 ###############################################################################
 
-bindsym $mod+Ctrl+$left resize shrink width 10px
-bindsym $mod+Ctrl+$down resize grow height 10px
-bindsym $mod+Ctrl+$up resize shrink height 10px
-bindsym $mod+Ctrl+$right resize grow width 10px
+bindsym $alt+$left resize shrink width 50px
+bindsym $alt+$down resize grow height 50px
+bindsym $alt+$up resize shrink height 50px
+bindsym $alt+$right resize grow width 50px
+
+bindsym $alt+Left resize shrink width 50px
+bindsym $alt+Down resize grow height 50px
+bindsym $alt+Up resize shrink height 50px
+bindsym $alt+Right resize grow width 50px
 
 
 # Resize floating windows with mouse scroll:
@@ -184,14 +191,14 @@ bindsym XF86AudioPlay exec playerctl play
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+
 #
 # Backlight
 #
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%- | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $SWAYSOCK.wob
-bindsym XF86MonBrightnessUp exec brightnessctl set +5% | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $SWAYSOCK.wob  
+bindsym XF86MonBrightnessUp exec brightnessctl set +5% | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $SWAYSOCK.wob 
+
 #
 # Screenshots
 #
 bindsym print exec /usr/share/sway/scripts/grimshot --notify save output
-bindsym Shift+print exec ~/.config/sway/scripts/screenshot.sh
-
