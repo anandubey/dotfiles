@@ -16,6 +16,14 @@ window#waybar {
     background:#1e2122;
 }
 
+tooltip {
+    
+    background: rgba(40, 43, 44, 0.9);
+    border: 1px solid rgba(180, 187, 200, 0.5);
+}
+tooltip label {
+    color: #b4bbc8;
+}
 
 
 /* ============================================================================
@@ -113,7 +121,7 @@ window#waybar {
  *  PULSEAUDIO
  * 
  * ==========================================================================*/
- #pulseaudio.sink-icon-control, #pulseaudio.source-control {
+ #pulseaudio.sink-icon{
     font-family: 'Font Awesome 6 Free Solid';
     font-size: 12px;
     color: #89b482;
@@ -121,28 +129,28 @@ window#waybar {
     padding: 0 10px 0 10px;
     border-bottom: 1px solid #89b482;
 }
-#pulseaudio.source-control{
+#pulseaudio.source-icon{
     margin: 0 15px 0 0;
 }
 #pulseaudio.sink{
     font-size: 13px;
     color: #c7b89d;
     background-color: #2b2e2f;
-    padding: 0 10px 0 10px;
+    padding: 0 10px 0 5px;
     border-bottom: 1px solid #89b482;
 }
-#pulseaudio.sink.muted, #pulseaudio.sink-icon-control.muted {
+#pulseaudio.sink.muted, #pulseaudio.sink-icon.muted {
     color: #1e2122;
     background-color: #ec6b64;
     border-bottom: 0px;
 }
-#pulseaudio.sink-icon-control.muted {
+#pulseaudio.sink-icon.muted {
     padding: 0 10px 0 10px
 }
 #pulseaudio.sink.muted {
     padding: 0 10px 0 0;
 }
-#pulseaudio.source-control.source-muted{
+#pulseaudio.source-icon.source-muted{
     color: #1e2122;
     padding: 0 10px 0 10px;
     background-color: #ec6b64;
@@ -245,41 +253,6 @@ window#waybar {
     padding: 0 10px 0 6px;
 }
 
-/*   
-local colors = {
-    white = "#c7b89d",
-    darker_black = "#1a1d1e",
-    black = "#1e2122", --  nvim bg
-    black2 = "#232627",
-    one_bg = "#282b2c",
-    one_bg2 = "#393c3d",
-    one_bg3 = "#404344",
-    grey = "#484b4c",
-    grey_fg = "#575a5b",
-    grey_fg2 = "#545758",
-    light_grey = "#5a5d5e",
-    red = "#ec6b64",
-    baby_pink = "#ce8196",
-    pink = "#ff75a0",
-    line = "#2c2f30", -- for lines like vertsplit
-    green = "#89b482",
-    vibrant_green = "#a9b665",
-    nord_blue = "#6f8faf",
-    blue = "#6d8dad",
-    yellow = "#d6b676",
-    sun = "#d1b171",
-    purple = "#b4bbc8",
-    dark_purple = "#cc7f94",
-    teal = "#749689",
-    orange = "#e78a4e",
-    cyan = "#82b3a8",
-    statusline_bg = "#222526",
-    lightbg = "#2d3031",
-    lightbg2 = "#252829",
-    pmenu_bg = "#89b482",
-    folder_bg = "#6d8dad",
- }
- */
 
 /* ============================================================================
  *  

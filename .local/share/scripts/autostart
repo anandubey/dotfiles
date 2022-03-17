@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# this is just an example!
+# add your autostart stuffs here
+xbacklight -set 5 &
+feh --bg-fill ~/Pictures/wallpapers/groovy-arch.png &
+picom -b --unredir-if-possible --backend xr_glx_hybrid --vsync --use-damage --glx-no-stencil &
+
+# run bar script and dwm ( do not remove this )
+~/.local/share/scripts/bar.sh &

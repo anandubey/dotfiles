@@ -7,8 +7,8 @@
 
 
 # Mod4 - Win key, Mod1 - Alt Key
-set $mod Mod4
-set $alt Mod1
+set $mod Mod1
+set $win Mod4
 
 # Set Directions
 set $left h
@@ -75,11 +75,7 @@ bindsym $mod+$left focus left
 bindsym $mod+$down focus down
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
-# Or use $mod+[up|down|left|right]
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+
 
 # Move the focused window with the same, but add Shift
 bindsym $mod+Shift+$left move left
@@ -159,15 +155,15 @@ bindsym $mod+g scratchpad show
 ########################## Resizing containers ################################
 ###############################################################################
 
-bindsym $alt+$left resize shrink width 50px
-bindsym $alt+$down resize grow height 50px
-bindsym $alt+$up resize shrink height 50px
-bindsym $alt+$right resize grow width 50px
+bindsym $win+$left resize shrink width 50px
+bindsym $win+$down resize grow height 50px
+bindsym $win+$up resize shrink height 50px
+bindsym $win+$right resize grow width 50px
 
-bindsym $alt+Left resize shrink width 50px
-bindsym $alt+Down resize grow height 50px
-bindsym $alt+Up resize shrink height 50px
-bindsym $alt+Right resize grow width 50px
+bindsym $win+Left resize shrink width 50px
+bindsym $win+Down resize grow height 50px
+bindsym $win+Up resize shrink height 50px
+bindsym $win+Right resize grow width 50px
 
 
 # Resize floating windows with mouse scroll:

@@ -1,10 +1,10 @@
 {
     "layer": "top",
-    "position": "bottom",
+    "position": "top",
     "height": 16,
     "modules-left": ["custom/clock-time-icon", "clock", "custom/clock-date-icon", "clock#date", "sway/window"],
     "modules-center": ["sway/workspaces"],
-    "modules-right": ["idle_inhibitor", "pulseaudio#sink-icon-control", "pulseaudio#sink", "pulseaudio#source-control", "battery", "custom/memory-icon", "memory", "network", "network#icon"],
+    "modules-right": ["idle_inhibitor", "pulseaudio#sink-icon", "pulseaudio#sink", "pulseaudio#source-icon", "battery", "custom/memory-icon", "memory", "network", "network#icon"],
     
 
     "wlr/taskbar": {
@@ -68,7 +68,7 @@
     },
 
 
-    "pulseaudio#sink-icon-control": {
+    "pulseaudio#sink-icon": {
         "format": "{icon}",
         "format-bluetooth": "",
         "format-bluetooth-muted": "",
@@ -108,12 +108,12 @@
         "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
         "on-click-middle": "pavucontrol"
     },
-    "pulseaudio#source-control": {
+    "pulseaudio#source-icon": {
         "format": "{format_source}",
         "format-bluetooth": "{format_source}",
         "format-bluetooth-muted": "{format_source}",
         "format-muted": "{format_source}",
-        "format-source": "",
+        "format-source": "",
         "format-source-muted": "",
         "tooltip-format": "",
         "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
@@ -142,10 +142,6 @@
     },
 
 
-    "custom/network-icon" : {
-        "format" : "   ",
-        "tooltip": false
-    },
     "network#icon": {
         "format": "Disabled",
         "format-wifi": "{icon}",
@@ -171,20 +167,21 @@
     },
     "clock": {
         "format": "{:%I:%M %p}",
-        "today-format": "<b><u>{}</u></b>",
-        "format-alt": "  {:%d/%m/%Y %H:%M:%S}",
-        "interval": 60,
-        "tooltip-format": "<tt>{calendar}</tt>"
+        "format-alt": "{:%H:%M:%S}",
+        "interval": 1,
+        "today-format": "<span color='#ff7971'><b>{}</b></span>",
+        "tooltip-format": "<span font='JetBrainsMonoMedium Nerd Font 14'><big>{:%d %B %Y}</big></span>\n<span font='JetBrainsMonoMedium Nerd Font 13'><tt><small>{calendar}</small></tt></span>"
     },
     "custom/clock-date-icon": {
         "format" : "",
         "tooltip": false
     },
     "clock#date": {
-        "format": "{:%a %d %b}",
-        "today-format": "<b><u>{}</u></b>",
-        "format-alt": "  {:%d/%m/%Y %H:%M:%S}",
+        "format": "{:%a, %d %b}",
+        "format-alt": "{:%d-%m-%Y}",
         "interval": 60,
-        "tooltip-format": "<tt>{calendar}</tt>"
+        "today-format": "<span color='#ff7971'><b>{}</b></span>",
+        "tooltip-format": "<span font='JetBrainsMonoMedium Nerd Font 14'><big>{:%d %B %Y}</big></span>\n<span font='JetBrainsMonoMedium Nerd Font 13'><tt><small>{calendar}</small></tt></span>",
+        "on-click-right": "google-chrome-stable --new-tab https://calendar.google.com"
     }
 }
