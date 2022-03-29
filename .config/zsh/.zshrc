@@ -6,199 +6,10 @@
 #==============================================================================
 
 
-## Options section
-setopt correct                                                  # Auto correct mistakes
-setopt extendedGlob                                             # Extended globbing. Allows using regular expressions with *
-setopt nocaseglob                                               # Case insensitive globbing
-setopt rcexpandparam                                            # Array expension with parameters
-setopt nocheckjobs                                              # Don't warn about running processes when exiting
-setopt numericglobsort                                          # Sort filenames numerically when it makes sense
-setopt nobeep                                                   # No beep
-setopt appendhistory                                            # Immediately append history instead of overwriting
-setopt histignorealldups                                        # If a new command is a duplicate, remove the older one
-setopt autocd                                                   # if only directory path is entered, cd there.
+setopt autocd		# Automatically cd into typed directory.
+stty stop undef		# Disable ctrl-s to freeze terminal.
+setopt interactive_comments
 
-
-# Completion.
-autoload -Uz compinit
-compinit -d ~/.cache/zsh/zcompdump
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'       # Case insensitive tab completion
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"         # Colored completion (different colors for dirs/files/etc)
-zstyle ':completion:*' rehash true                              # automatically find new executables in path
-# Speed up completions
-zstyle ':completion:*' accept-exact '*(N)'
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.cache/zsh/cache
-
-zstyle ':completion:*' completer _expand _complete _ignored _approximate
-zstyle ':completion:*' menu select=2
-zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
-zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
-
-
-
-# Basic zsh config.
-umask 077
-HISTFILE=~/.cache/zsh/history
-HISTSIZE='128000'
-SAVEHIST='128000'
-WORDCHARS=${WORDCHARS//\/[&.;]}   
-
-
-
-
-## Keybindings section
-bindkey -e
-bindkey '^[[7~' beginning-of-line                               # Home key
-bindkey '^[[H' beginning-of-line                                # Home key
-if [[ "${terminfo[khome]}" != "" ]]; then
-  bindkey "${terminfo[khome]}" beginning-of-line                # [Home] - Go to beginning of line
-fi
-bindkey '^[[8~' end-of-line                                     # End key
-bindkey '^[[F' end-of-line                                     # End key
-if [[ "${terminfo[kend]}" != "" ]]; then
-  bindkey "${terminfo[kend]}" end-of-line                       # [End] - Go to end of line
-fi
-bindkey '^[[2~' overwrite-mode                                  # Insert key
-bindkey '^[[3~' delete-char                                     # Delete key
-bindkey '^[[C'  forward-char                                    # Right key
-bindkey '^[[D'  backward-char                                   # Left key
-bindkey '^[[5~' history-beginning-search-backward               # Page up key
-bindkey '^[[6~' history-beginning-search-forward                # Page down key
-
-# Navigate words with ctrl+arrow keys
-bindkey '^[Oc' forward-word                                     #
-bindkey '^[Od' backward-word                                    #
-bindkey '^[[1;5D' backward-word                                 #
-bindkey '^[[1;5C' forward-word                                  #
-bindkey '^H' backward-kill-word                                 # delete previous word with ctrl+backspace
-bindkey '^[[Z' undo                                             # Shift+tab undo last action
-bindkey '5~' delete-word
-
-
-
-
-# Load aliases and shortcuts if existent.
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/aliasrc"
-
-
-
-# Color man pages
-export LESS_TERMCAP_mb=$'\E[01;32m'
-export LESS_TERMCAP_md=$'\E[01;32m'
-export LESS_TERMCAP_me=$'\E[0m'
-export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_so=$'\E[01;47;34m'
-export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[01;36m'
-export LESS=-r
-
-
-# Functions
-
-# Fancy cd that can cd into parent directory, if trying to cd into file.
-
-cd() {
-    if (( $+2 )); then
-        builtin cd "$@"
-        return 0
-    fi
-
-    if [ -f "$1" ]; then
-        echo "${yellow}cd ${1:h}${NC}" >&2
-        builtin cd "${1:h}"
-    else
-        builtin cd "${@}"
-    fi
-}
-
-
-reload () {
-    exec "${SHELL}" "$@"
-}
-
-escape() {
-    # Super useful when you need to translate weird as fuck path into single-argument string.
-    local escape_string_input
-    echo -n "String to escape: "
-    read escape_string_input
-    printf '%q\n' "$escape_string_input"
-}
-
-confirm() {
-    local answer
-    echo -ne "zsh: sure you want to run '${YELLOW}$*${NC}' [yN]? "
-    read -q answer
-        echo
-    if [[ "${answer}" =~ ^[Yy]$ ]]; then
-        command "${@}"
-    else
-        return 1
-    fi
-}
-
-confirm_wrapper() {
-    if [ "$1" = '--root' ]; then
-        local as_root='true'
-        shift
-    fi
-
-    local prefix=''
-
-    if [ "${as_root}" = 'true' ] && [ "${USER}" != 'root' ]; then
-        prefix="sudo"
-    fi
-    confirm ${prefix} "$@"
-}
-
-poweroff() { confirm_wrapper --root $0 "$@"; }
-reboot() { confirm_wrapper --root $0 "$@"; }
-hibernate() { confirm_wrapper --root $0 "$@"; }
-
-
-
-has() {
-    local string="${1}"
-    shift
-    local element=''
-    for element in "$@"; do
-        if [ "${string}" = "${element}" ]; then
-            return 0
-        fi
-    done
-    return 1
-}
-
-begin_with() {
-    local string="${1}"
-    shift
-    local element=''
-    for element in "$@"; do
-        if [[ "${string}" =~ "^${element}" ]]; then
-            return 0
-        fi
-    done
-    return 1
-
-}
-
-termtitle() {
-    case "$TERM" in
-        rxvt*|xterm*|nxterm|gnome|screen|screen-*|st|st-*)
-            local prompt_host="${(%):-%m}"
-            local prompt_user="${(%):-%n}"
-            local prompt_char="${(%):-%~}"
-            case "$1" in
-                precmd)
-                    printf '\e]0;%s@%s: %s\a' "${prompt_user}" "${prompt_host}" "${prompt_char}"
-                ;;
-                preexec)
-                    printf '\e]0;%s [%s@%s: %s]\a' "$2" "${prompt_user}" "${prompt_host}" "${prompt_char}"
-                ;;
-            esac
-        ;;
-    esac
-}
 
 setup_git_prompt() {
     if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
@@ -234,108 +45,118 @@ setup_git_prompt() {
 }
 
 precmd() {
-    # Set terminal title.
-    termtitle precmd
 
     # Set optional git part of prompt.
     setup_git_prompt
 
 }
 
-preexec() {
-    # Set terminal title along with current executed command pass as second argument
-    termtitle preexec "${(V)1}"
-
-#   # Save timestamp when we executed this command
-#   executed_on=${(%):-'%D{%s}'}
-}
-
-
-dot_progress() {
-    # Fancy progress function from Landley's Aboriginal Linux.
-    # Useful for long rm, tar and such.
-    # Usage: 
-    #     rm -rfv /foo | dot_progress
-    local i='0'
-    local line=''
-
-    while read line; do
-        i="$((i+1))"
-        if [ "${i}" = '25' ]; then
-            printf '.'
-            i='0'
-        fi
-    done
-    printf '\n'
-}
-
-
-
-# Theming section
-autoload -U compinit colors zcalc
-colors
-
-# # zmv -  a command for renaming files by means of shell patterns.
-# autoload -U zmv
-
-# # zargs, as an alternative to find -exec and xargs.
-# autoload -U zargs
-
-# Turn on command substitution in the prompt (and parameter expansion and arithmetic expansion).
+# Enable colors and change prompt:
 setopt promptsubst
-
-
-# Prevent insert key from changing input mode.
-# (switch to Emacs mode)
-bindkey -e
-
-# Control-x-e to open current line in $EDITOR, awesome when writting functions or editing multiline commands.
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey '^x^e' edit-command-line
-
-
-
-# If running as root and nice >0, renice to 0.
-if [ "$USER" = 'root' ] && [ "$(cut -d ' ' -f 19 /proc/$$/stat)" -gt 0 ]; then
-    renice -n 0 -p "$$" && echo "# Adjusted nice level for current shell to 0."
-fi
-
-$HOME/.config/sway/scripts/fetch
-
+autoload -U colors && colors	# Load colors
 PROMPT="%B%{$fg[blue]%}%(3~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})%{$reset_color%}%b "
 RPROMPT='${git_prompt}%B%{$fg[blue]%}%(basename \"$VIRTUAL_ENV)%u%b'
 
 
-
-# Keep history of `cd` as in with `pushd` and make `cd -<TAB>` work.
-DIRSTACKSIZE=16
-setopt auto_pushd
-setopt pushd_ignore_dups
-setopt pushd_minus
-
-# Ignore lines prefixed with '#'.
-setopt interactivecomments
-
-# Ignore duplicate in history.
-setopt hist_ignore_dups
-
-# Prevent record in history entry if preceding them with at least one space
-setopt hist_ignore_space
-
-# Nobody need flow control anymore. Troublesome feature.
-#stty -ixon
-setopt noflowcontrol
+# History in cache directory:
+HISTSIZE=10000000
+SAVEHIST=10000000
+HISTFILE=~/.cache/zsh/history
 
 
+# Load aliases and shortcuts if existent.
+# [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc"
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
+# [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc"
+
+
+# Basic auto/tab complete:
+autoload -Uz compinit
+compinit -d ~/.cache/zsh/zcompdump
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'       # Case insensitive tab completion
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"         # Colored completion (different colors for dirs/files/etc)
+zstyle ':completion:*' rehash true
+# Speed up completions
+zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.cache/zsh/cache
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+_comp_options+=(globdots)		# Include hidden files.
+
+
+# vi mode
+bindkey -v
+export KEYTIMEOUT=1
+
+# Use vim keys in tab complete menu:
+bindkey '^[[H' beginning-of-line            # Home Key
+bindkey '^[[F' end-of-line                  # End key
+bindkey '^[[3~' delete-char                 # Delete key
+bindkey '^H' backward-kill-word             # Ctrl+Backspace
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -v '^?' backward-delete-char
+
+
+# Change cursor shape for different vi modes.
+function zle-keymap-select () {
+    case $KEYMAP in
+        vicmd) echo -ne '\e[3 q';;      # block
+        viins|main) echo -ne '\e[5 q';; # beam
+    esac
+}
+zle -N zle-keymap-select
+# zle-line-init() {
+#     zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+#     echo -ne "\e[5 q"
+# }
+# zle -N zle-line-init
+# echo -ne '\e[5 q' # Use beam shape cursor on startup.
+# preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+
+# Use lf to switch directories and bind it to ctrl-o
+lfcd () {
+    tmp="$(mktemp)"
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp" >/dev/null
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+    fi
+}
+bindkey -s '^o' 'lfcd\n'
+
+bindkey -s '^a' 'bc -lq\n'
+
+# bindkey -s '^f' 'cd "$(dirname "$(fzf)")"\n'
+
+bindkey '^[[P' delete-char
+
+# Edit line in vim with ctrl-e:
+autoload edit-command-line; zle -N edit-command-line
+bindkey '^e' edit-command-line
+
+# Color man pages
+export LESS_TERMCAP_mb=$'\E[01;32m'
+export LESS_TERMCAP_md=$'\E[01;32m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;47;34m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;36m'
+export LESS=-r
+
+
+# Load Auto suggestions
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
-#Load fast syntax highlighting
+
+# Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
 
-
-#if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
-#  exec sway
-#fi
+# $HOME/.local/bin/fetch
