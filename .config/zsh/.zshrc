@@ -11,52 +11,90 @@ stty stop undef		# Disable ctrl-s to freeze terminal.
 setopt interactive_comments
 
 
-setup_git_prompt() {
-    if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-        unset git_prompt
-        return 0
-    fi
+# setup_git_prompt() {
+#     if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+#         unset git_prompt
+#         return 0
+#     fi
 
-    local git_status_dirty git_status_stash git_branch
+#     local git_status_dirty git_status_stash git_branch
 
-    if [ "$(git --no-optional-locks status --untracked-files='no' --porcelain)" ]; then
-        git_status_dirty='%F{green}*'
-    else
-        unset git_status_dirty
-    fi
+#     if [ "$(git --no-optional-locks status --untracked-files='no' --porcelain)" ]; then
+#         git_status_dirty='%F{green}*'
+#     else
+#         unset git_status_dirty
+#     fi
 
-    if [ "$(git stash list)" ]; then
-        git_status_stash="%F{yellow}▲"
-    else
-        unset git_status_stash
-    fi
+#     if [ "$(git stash list)" ]; then
+#         git_status_stash="%F{yellow}▲"
+#     else
+#         unset git_status_stash
+#     fi
 
-    git_branch="$(git symbolic-ref HEAD 2>/dev/null)"
-    git_branch="${git_branch#refs/heads/}"
+#     git_branch="$(git symbolic-ref HEAD 2>/dev/null)"
+#     git_branch="${git_branch#refs/heads/}"
 
-    if [ "${#git_branch}" -ge 24 ]; then
-        git_branch="${git_branch:0:21}..."
-    fi
+#     if [ "${#git_branch}" -ge 24 ]; then
+#         git_branch="${git_branch:0:21}..."
+#     fi
 
-    git_branch="${git_branch:-no branch}"
+#     git_branch="${git_branch:-no branch}"
 
-    git_prompt=" %F{blue}[%F{253}${git_branch}${git_status_dirty}${git_status_stash}%F{blue}]"
+#     git_prompt=" %F{blue}[%F{253}${git_branch}${git_status_dirty}${git_status_stash}%F{blue}]"
 
-}
+# }
 
-precmd() {
+# precmd() {
 
-    # Set optional git part of prompt.
-    setup_git_prompt
+#     # Set optional git part of prompt.
+#     setup_git_prompt
 
-}
+# }
+
+
+
 
 # Enable colors and change prompt:
 setopt promptsubst
 autoload -U colors && colors	# Load colors
-PROMPT="%B%{$fg[blue]%}%(3~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})%{$reset_color%}%b "
-RPROMPT='${git_prompt}%B%{$fg[blue]%}%(basename \"$VIRTUAL_ENV)%u%b'
 
+# Git branch in prompt.
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git 
+
+# setup a hook that runs before every ptompt. 
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+
+# add a function to check for untracked files in the directory.
+# from https://github.com/zsh-users/zsh/blob/master/Misc/vcs_info-examples
+zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
+# 
++vi-git-untracked(){
+    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+        git status --porcelain | grep '??' &> /dev/null ; then
+        # This will show the marker if there are any untracked files in repo.
+        # If instead you want to show the marker only if there are untracked
+        # files in $PWD, use:
+        #[[ -n $(git ls-files --others --exclude-standard) ]] ; then
+        hook_com[staged]+='!' # signify new files with a bang
+    fi
+}
+
+zstyle ':vcs_info:*' check-for-changes true
+# zstyle ':vcs_info:git:*' formats " %r/%S %b %m%u%c "
+zstyle ':vcs_info:git:*' formats "%B%{$fg[yellow]%}[%{$fg[cyan]%}%{$fg[magenta]%} %b%{$fg[yellow]%}]%B%{$fg[magenta]%} "
+# Shell Prompt
+#symbol="@"
+#PROMPT="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}$symbol%{$fg[blue]%}%M%{$fg[red]%}]%{$fg[red]%}-(%{$fg[magenta]%}%1~%{$fg[red]%})%{$fg[magenta]%}$ %b"
+PROMPT="%B%{$fg[blue]%}%(3~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})󰊠 %{$reset_color%}%b "
+#PROMPT="%B%{$fg[blue]%}%(3~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})%{$reset_color%}%b "
+RPROMPT="\$vcs_info_msg_0_"
+
+
+# Shell Prompt
+# RPROMPT='${git_prompt}%B%{$fg[blue]%}%(basename \"$VIRTUAL_ENV)%u%b'
 
 # History in cache directory:
 HISTSIZE=10000000
@@ -99,13 +137,18 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
-
+bindkey '5~' delete-word
+# Navigate words with ctrl+arrow keys
+bindkey '^[Oc' forward-word                                     #
+bindkey '^[Od' backward-word                                    #
+bindkey '^[[1;5D' backward-word                                 #
+bindkey '^[[1;5C' forward-word  
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select () {
     case $KEYMAP in
-        vicmd) echo -ne '\e[3 q';;      # block
-        viins|main) echo -ne '\e[5 q';; # beam
+        vicmd) echo -ne '\e[1 q';;      # block
+        viins|main) echo -ne '\e[3 q';; # beam
     esac
 }
 zle -N zle-keymap-select
@@ -160,3 +203,13 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
 
 # $HOME/.local/bin/fetch
+
+#if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+#    ssh-agent -t 1h > "$XDG_RUNTIME_DIR/ssh-agent.env"
+#fi
+#if [[ ! "$SSH_AUTH_SOCK" ]]; then
+#    source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
+#fi
+
+echo 'echo akd' > /tmp/sshpass && chmod 700 /tmp/sshpass > /dev/null 2>&1
+cat ~/.local/share/ssh/id_ed | SSH_ASKPASS=/tmp/sshpass ssh-add - > /dev/null 2>&1 && rm /tmp/sshpass > /dev/null 2>&1

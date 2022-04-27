@@ -1,1 +1,51 @@
-$HOME/.local/share/scripts/dwm/autostart
+# Kill already running process
+_ps=(picom dunst mpd)
+for _prs in "${_ps[@]}"; do
+	if [[ `pidof ${_prs}` ]]; then
+		killall -9 ${_prs}
+	fi
+done
+
+# Fix cursor
+xsetroot -cursor_name left_ptr
+
+
+
+# Set DPI
+xrandr --dpi 96 &
+
+# Load shell variables
+source $HOME/.config/shell/profile
+
+# Enable External screen
+xrandr --output HDMI-0 --auto --rotate inverted &
+
+# Polkit agent
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+gnome-keyring-daemon --daemonize --start --components=gpg,pkcs11,secrets,ssh &
+
+
+# Start compositor
+picom --experimental-backends --config ~/.config/picom/picom.conf &
+
+## Launch dunst daemon
+if [[ `pidof dunst` ]]; then
+	pkill dunst
+fi
+
+dunst -config /usr/share/archcraft/dwm/dunstrc &
+
+# Set wallpaper
+setbg &
+
+# DWM bar script
+bar &
+
+# Enable redshift
+redshift -l 12.97:77.59 -P -O 5200 &
+
+ echo 'echo akd' > /tmp/sshpass && chmod 700 /tmp/sshpass
+ cat ~/.local/share/ssh/id_ed | SSH_ASKPASS=/tmp/sshpass ssh-add - && rm /tmp/sshpass
+
+

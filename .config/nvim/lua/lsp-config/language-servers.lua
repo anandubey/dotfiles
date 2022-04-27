@@ -29,11 +29,11 @@ table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
 local langservers = {
-  'ccls',
+  'clangd',
   'html',
   'cssls',
   'tsserver',
-  'pylsp',
+  'pyright',
   'ls_emmet',
 }
 

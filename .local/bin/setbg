@@ -1,7 +1,7 @@
-#!/bin/dash
-
+#!/bin/sh
 
 # Location of link to wallpaper link.
 bg_dir="${XDG_DATA_HOME:-$HOME/.local/share/}/bg"
 
 feh --bg-fill --randomize "$bg_dir"
+

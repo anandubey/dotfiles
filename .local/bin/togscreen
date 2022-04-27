@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if xrandr | grep "HDMI-0 disconnected"; then
+    xrandr --output "HDMI-0" --off --output "eDP-1-1" --auto
+else
+    xrandr --output "eDP-1-1" --off --output "HDMI-0" --auto --rotate inverted
+fi

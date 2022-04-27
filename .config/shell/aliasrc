@@ -56,7 +56,7 @@ alias hw="hwinfo --short"
 # Package management
 alias pacsync="sudo pacman -Sy"
 alias pacupdate="sudo pacman -Syu"
-alias pacinstall="sudo pacman -S"
+alias pacins="sudo pacman -S"
 alias cleanup="sudo pacman -Rns $(pacman -Qtdq)"
 
 #Get the error messages from journalctl

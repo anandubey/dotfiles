@@ -18,7 +18,7 @@ from libqtile import layout, bar, widget, hook, qtile
 from libqtile.widget import Spacer
 
 #mod4 or mod = super key
-mod = "mod4"
+mod = "mod1"
 mod1 = "alt"
 mod2 = "control"
 HOME = os.path.expanduser('~')
@@ -43,7 +43,6 @@ keys = [
 # SUPER + FUNCTION KEYS
 
     Key([mod], "f", lazy.window.toggle_fullscreen()),
-    Key([mod], "p", lazy.spawn('dmenu_recency')),
     Key([mod], "q", lazy.window.kill()),
     Key([mod], "t", lazy.spawn('alacritty')),
     Key([mod], "v", lazy.spawn('pavucontrol')),
@@ -52,7 +51,7 @@ keys = [
     Key([mod], "Return", lazy.spawn('alacritty')),
     Key([mod], "KP_Enter", lazy.spawn('alacritty')),
     Key([mod], "e", lazy.spawn('thunar')),
-    Key([mod], "p", lazy.spawn('rofi -no-lazy-grab -show drun -modi drun -theme .config/rofi/launchers/misc/column.rasi')),
+    Key([mod], "p", lazy.spawn('rofi -no-lazy-grab -show drun -modi drun -theme .config/rofi/themes/launcher.rasi')),
     Key([mod], "x", lazy.spawn('xkill')),
 
 # SUPER + SHIFT KEYS
@@ -67,8 +66,6 @@ keys = [
 
 # CONTROL + ALT KEYS
 
-    Key(["mod1", "control"], "c", lazy.spawn('catfish')),
-    Key(["mod1", "control"], "i", lazy.spawn('nitrogen')),
     Key(["mod1", "control"], "o", lazy.spawn(HOME + '/.config/qtile/scripts/picom-toggle.sh')),
     Key(["mod1", "control"], "t", lazy.spawn('kitty')),
     Key(["mod1", "control"], "u", lazy.spawn('pavucontrol')),
@@ -215,7 +212,7 @@ group_names = ["1", "2", "3", "4", "5",]
 
 #group_labels = ["1 ", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "0",]
 #group_labels = ["", "", "", "", "", "", "", "", "", "",]
-group_labels = ["諭", "", "", "", "",]
+group_labels = ["", "", "", "", "",]
 #group_labels = ["Web", "Edit/chat", "Image", "Gimp", "Meld", "Video", "Vb", "Files", "Mail", "Music",]
 
 #group_layouts = ["monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "treetab", "floating",]
@@ -354,37 +351,13 @@ widget_defaults = init_widgets_defaults()
 def init_widgets_list():
     prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
     widgets_list = [
-        widget.Sep(
-            linewidth = 0,
-			padding = 5,
-			foreground = colors["background"],
-			background = colors["red"]
-        ),
-        widget.Image(
-            filename = "/usr/share/icons/manjaro/white/white.svg",
-            scale = "True",
-            margin = 4,
-            background = colors["red"],
-            mouse_callbacks = {
-                'Button1': lambda: qtile.cmd_spawn(
-                    "rofi -no-lazy-grab -show drun -modi drun -theme\
-                     .config/rofi/launchers/misc/column.rasi"
-                    )
-            }
-        ),
-        widget.Sep(
-            linewidth = 0,
-			padding = 5,
-			foreground = colors["background"],
-			background = colors["red"]
-        ),
 		widget.GroupBox(
-			font="FontAwesome",
-			fontsize = 26,
+			font="Font Awesome 6 Free Solid",
+			fontsize = 14,
 			margin_y = 2,
 			margin_x = 10,
-			padding_y = 6,
-			padding_x = 4,
+			padding_y = 0,
+			padding_x = 2,
 			borderwidth = 2,
 			disable_drag = True,
 			active = colors["active"],
@@ -407,8 +380,8 @@ def init_widgets_list():
 		#	length=bar.STRETCH,
 		#),
 		widget.WindowName(
-            font="JetBrainsMono Nerd Font",
-			fontsize = 13,
+            font="JetBrainsMonoMedium Nerd Font",
+			fontsize = 12,
 			foreground = colors["foreground"],
 			background = colors["background"],
 			#empty_group_string = ':: Anand Dubey ::',
@@ -518,12 +491,12 @@ def init_widgets_list():
 			background = colors["background"]
 		),
 		widget.TextBox(
-            font="FontAwesome Bold",
+            font="Font Awesome 6 Free Solid",
             text="",
             foreground=colors["nord_cyan"],
             background=colors["background"],
             padding = 0,
-            fontsize=32
+            fontsize=11
         ),
         widget.Sep(
             linewidth = 0,
@@ -532,18 +505,10 @@ def init_widgets_list():
             background = colors["background"]
         ),
 
-		# widget.Volume(
-		# 	font = 'JetBrainsMono Nerd Font Bold',
-        #     fontsize = None,
-        #     padding = 1,
-        #     theme_path = '/home/bae/.config/qtile/icons/volume',
-        #     foreground = colors["foreground"],
-        #     background = colors["background"],
-            
-        # ),
+
         widget.Volume(
-			font = 'JetBrainsMono Nerd Font Bold',
-            fontsize = 14,
+			font = 'JetBrainsMonoMedium Nerd Font',
+            fontsize = 12,
             foreground = colors["foreground"],
             background = colors["background"],
             padding = 1,
@@ -561,39 +526,39 @@ def init_widgets_list():
             background = colors["selection"]
         ),
 		widget.TextBox(
-            font="FontAwesome Bold",
-            text=" ",
+            font="Font Awesome 6 Free Solid",
+            text="  ",
             foreground=colors["green"],
             background=colors["selection"],
             padding = 0,
-            fontsize=23
+            fontsize=12
         ),
 		widget.Clock(
             foreground = colors["foreground"],
             background = colors["selection"],
-            font = 'JetBrainsMono Nerd Font Bold',
-            fontsize = 14,
+            font = 'JetBrainsMonoMedium Nerd Font',
+            fontsize = 13,
             format="%a, %d %b %Y"
         ),
 		widget.Sep(
             linewidth = 0,
-            padding =5,
+            padding = 5,
             foreground = colors["selection"],
             background = colors["selection"]
         ),
 		widget.TextBox(
-            font="FontAwesome Bold",
-            text="  ",
+            font="Font Awesome 6 Free Solid",
+            text=" 󱑁 ",
             foreground=colors["green"],
             background=colors["selection"],
             padding = 0,
-            fontsize=26
+            fontsize=14
         ),
 		widget.Clock(
             foreground = colors["foreground"],
             background = colors["selection"],
-            font = 'JetBrainsMono Nerd Font Bold',
-            fontsize = 14,
+            font = 'JetBrainsMonoMedium Nerd Font',
+            fontsize = 12,
             format="%H:%M"
         ),
 		widget.Sep(
@@ -602,25 +567,25 @@ def init_widgets_list():
             foreground = colors["selection"],
             background = colors["selection"]
         ),
-		widget.Sep(
-            linewidth = 0,
-            padding = 10,
-            foreground = colors["background"],
-            background = colors["background"]
-        ),
+		# widget.Sep(
+        #     linewidth = 0,
+        #     padding = 10,
+        #     foreground = colors["background"],
+        #     background = colors["background"]
+        # ),
 
-		widget.Systray(
-            background = colors["background"],
-            foreground = colors["background"],
-            icon_size=14,
-            padding = 8
-        ),
-		widget.Sep(
-            linewidth = 0,
-            padding = 15,
-            foreground = colors["background"],
-            background = colors["background"],
-        ),
+		# widget.Systray(
+        #     background = colors["background"],
+        #     foreground = colors["background"],
+        #     icon_size=14,
+        #     padding = 8
+        # ),
+		# widget.Sep(
+        #     linewidth = 0,
+        #     padding = 15,
+        #     foreground = colors["background"],
+        #     background = colors["background"],
+        # ),
         # widget.Sep(
         #     linewidth = 0,
 		# 	padding = 10,
