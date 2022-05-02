@@ -1,40 +1,37 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 16,
-    "modules-left": ["custom/clock-time-icon", "clock", "custom/clock-date-icon", "clock#date", "sway/window"],
-    "modules-center": ["sway/workspaces"],
-    "modules-right": ["idle_inhibitor", "pulseaudio#sink-icon", "pulseaudio#sink", "pulseaudio#source-icon", "battery", "custom/memory-icon", "memory", "network", "network#icon"],
+    "height": 18,
+
+    "modules-left": [
+        "sway/workspaces",
+        "sway/window"
+    ],
+
+    "modules-center": [],
+
+    "modules-right": [
+        "idle_inhibitor",
+        "pulseaudio#sink-icon", "pulseaudio#sink", "pulseaudio#source-icon",
+        "battery",
+        "memory#icon", "memory",
+        "network#icon", "network",
+        "clock#time-icon", "clock",
+        "clock#date-icon", "clock#date"
+    ],
     
 
-    "wlr/taskbar": {
-        "all-outputs": false,
-        "format": "{icon}",
-        "active-first": true,
-        "icon-size": 14,
-        "icon-theme": "candy-icons",
-        "tooltip-format": "{title}",
-        "on-click": "activate",
-        "on-click-middle": "close",
-        "ignore-list": [
-            "Alacritty"
-        ],
-        "app_ids-mapping": {
-                "firefoxdeveloperedition": "firefox-developer-edition"
-        }
-    },
 
     "sway/workspaces": {
         "disable-scroll": false,
         "all-outputs": false,
         "format": "{icon}",
         "format-icons": {
-            "1": "",
-            "2": "",
+            "1": "󰆥",
+            "2": "󰈹",
             "3": "󰨞",
-            "4": "",
-            "5": "",
-            "6": "",
+            "4": "󰉋",
+            "5": "󰇮",
             "urgent": "",
             "focused": "",
             "default": ""
@@ -48,41 +45,43 @@
         }
     },
 
-
-    "custom/seperator":{
-        "format": ""
-    },
     "sway/window": {
-        
+        "tooltip": false,
         "format": "{}",
-        "max-length":40
+        "max-length":40,
+        "rewrite": {
+            "Mozilla Firefox": "  New Tab",
+            "(.+) — Mozilla Firefox": "  $1",
+            "(.*) - Google Chrome": "  $1",
+            "(.*) - Visual Studio Code": "󰨞 $1",
+            "Alacritty": "󰣐 Alacritty"
+        }
     },
-
 
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {
-            "activated": "",
-            "deactivated": ""
+            "activated": "󰈈",
+            "deactivated": "󰈉"
         }
     },
 
 
     "pulseaudio#sink-icon": {
         "format": "{icon}",
-        "format-bluetooth": "",
-        "format-bluetooth-muted": "",
-        "format-muted": "",
-        "format-source": "",
-        "format-source-muted": "",
+        "format-bluetooth": "󰂯",
+        "format-bluetooth-muted": "󰂲",
+        "format-muted": "󰝟",
+        "format-source": "󰍬",
+        "format-source-muted": "󰍭",
         "format-icons": {
-            "headphone": "",
+            "headphone": "󰋋",
             "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
+            "headset": "󰋎",
+            "phone": "󰏲",
+            "portable": "󰏵",
             "car": "",
-            "default": ["", "", ""]
+            "default": ["󰕿", "󰖀", "󰕾"]
         },
         "tooltip-format": "{desc}, {volume}%",
         "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
@@ -94,15 +93,6 @@
         "format-bluetooth": "{volume}%",
         "format-bluetooth-muted": "MUTED",
         "format-muted": "MUTED",
-        "format-icons": {
-            "headphone": "",
-            "hands-free": " ",
-            "headset": " ",
-            "phone": " ",
-            "portable": " ",
-            "car": " ",
-            "default": [" ", " ", " "]
-        },
         "tooltip-format": "{desc}, {volume}%",
         "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
@@ -132,9 +122,8 @@
     },
 
 
-    "custom/memory-icon" : {
-        "format": "",
-        "tooltip": false
+    "memory#icon" : {
+        "format": "󰍛"
     },
     "memory": {
         "format": "{used:0.1f} GB",
@@ -145,7 +134,7 @@
     "network#icon": {
         "format": "Disabled",
         "format-wifi": "{icon}",
-        "tooltip-format-wifi": "󰖩:{signalStrength}%  󰁊:{bandwidthDownBits} 󰁢:{bandwidthUpBits}",
+        "tooltip-format-wifi": "󰤨:{signalStrength}%  {ifname}  {ipaddr}",
         "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
         "format-disconnected": "󰤭",
         "on-click": "alacritty -e nmtui",
@@ -153,35 +142,38 @@
     },
     "network": {
         "format": "Disabled",
-        "format-wifi": "{ipaddr}",
-        "tooltip-format-wifi": "{ifname} : {essid}",
+        "format-wifi": "{essid}",
+        "tooltip-format-wifi": "󰤨:{signalStrength}%  {ifname}  {ipaddr}",
         "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
         "format-disconnected": "Disconnected",
         "on-click": "alacritty -e nmtui"
     },
 
 
-    "custom/clock-time-icon": {
+    "clock#time-icon": {
         "format" : "󱑁",
-        "tooltip": false
+        "today-format": "<span color='#f44336'><b>{}</b></span>",
+        "tooltip-format": "<span font='JetBrainsMonoMedium Nerd Font 14'><big>{:%d, %B %Y}</big></span>\n<span font='JetBrainsMonoMedium Nerd Font 13'><tt><small>{calendar}</small></tt></span>",
     },
-    "clock": {
-        "format": "{:%I:%M %p}",
-        "format-alt": "{:%H:%M:%S}",
-        "interval": 1,
-        "today-format": "<span color='#ff7971'><b>{}</b></span>",
-        "tooltip-format": "<span font='JetBrainsMonoMedium Nerd Font 14'><big>{:%d %B %Y}</big></span>\n<span font='JetBrainsMonoMedium Nerd Font 13'><tt><small>{calendar}</small></tt></span>"
-    },
-    "custom/clock-date-icon": {
+    "clock#date-icon": {
         "format" : "",
-        "tooltip": false
+        "today-format": "<span color='#f44336'><b>{}</b></span>",
+        "tooltip-format": "<span font='JetBrainsMonoMedium Nerd Font 14'><big>{:%d, %B %Y}</big></span>\n<span font='JetBrainsMonoMedium Nerd Font 13'><tt><small>{calendar}</small></tt></span>",
     },
     "clock#date": {
         "format": "{:%a, %d %b}",
         "format-alt": "{:%d-%m-%Y}",
         "interval": 60,
-        "today-format": "<span color='#ff7971'><b>{}</b></span>",
-        "tooltip-format": "<span font='JetBrainsMonoMedium Nerd Font 14'><big>{:%d %B %Y}</big></span>\n<span font='JetBrainsMonoMedium Nerd Font 13'><tt><small>{calendar}</small></tt></span>",
+        "today-format": "<span color='#f44336'><b>{}</b></span>",
+        "tooltip-format": "<span font='JetBrainsMonoMedium Nerd Font 14'><big>{:%d, %B %Y}</big></span>\n<span font='JetBrainsMonoMedium Nerd Font 13'><tt><small>{calendar}</small></tt></span>",
+        "on-click-right": "google-chrome-stable --new-tab https://calendar.google.com"
+    },
+    "clock": {
+        "format": "{:%I:%M %p}",
+        "format-alt": "{:%H:%M:%S}",
+        "interval": 1,
+        "today-format": "<span color='#f44336'><b>{}</b></span>",
+        "tooltip-format": "<span font='JetBrainsMonoMedium Nerd Font 14'><big>{:%d, %B %Y}</big></span>\n<span font='JetBrainsMonoMedium Nerd Font 13'><tt><small>{calendar}</small></tt></span>",
         "on-click-right": "google-chrome-stable --new-tab https://calendar.google.com"
     }
 }

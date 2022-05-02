@@ -8,21 +8,44 @@
 
  
 * {
-    font-family: 'JetBrainsMono Medium Nerd Font';
+    font-family: 'JetBrainsMonoMedium Nerd Font';
     font-weight: 600;
+    border: none;
+    padding: 0;
+}
+.titlebar,
+window{
+    border-radius: 0;
+	box-shadow: none;
+}
+decoration {
+	box-shadow: none;
+}
+
+decoration:backdrop {
+	box-shadow: none;
 }
 
 window#waybar {
-    background:#1e2122;
+    background:rgba(40, 43, 44, 0);
+}
+window#waybar.hidded {
+    opacity: 0.;
 }
 
 tooltip {
-    
-    background: rgba(40, 43, 44, 0.9);
-    border: 1px solid rgba(180, 187, 200, 0.5);
+    font-family: 'JetBrainsMonoMedium Nerd Font';
+    font-size: 12px;
+    background-image: linear-gradient(to right, #e7f0e6, #ebeee1, #efebdd, #f4e8db, #f8e5dc, #fae3df, #fae1e5, #f6e0eb, #ede1f2, #e2e3f5, #d8e6f5, #d1e7f0);
+    border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+    border: 1px solid #5d6061;
 }
 tooltip label {
-    color: #b4bbc8;
+    margin: 3px;
+    color: #5a5d5e;
 }
 
 
@@ -31,27 +54,31 @@ tooltip label {
  *  WORKSPACE
  * 
  * ==========================================================================*/
+#workspaces{
+    background-color: #1e2122;
+    border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
 #workspaces button {
-    font-family: 'Font Awesome 6 Free Solid';
+    font-family: 'Material Design Icons';
     font-size: 14px;
     color: #5d6061;
-    padding: 0 5px 0 0;
-    margin: 0 5px 0 5px;
-    border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-    border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
+    padding: 0 5px 0 5px;
+    margin: 0 2px 0 2px;
+    border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
 }
 
-#workspaces button#sway-workspace-3{
-    font-size: 16px;
-    padding: 0 5px 0 5px;
-}
+
 #workspaces button#sway-workspace-1.current_output {
     color:#89b482;
 }
 #workspaces button#sway-workspace-2.current_output {
-    color: #d6b676;
+    color: #ec6b64;
 }
 #workspaces button#sway-workspace-3.current_output {
     color: #6f8faf;
@@ -60,23 +87,32 @@ tooltip label {
     color: #cc7f94;
 }
 #workspaces button#sway-workspace-5.current_output {
-    color: #ec6b64;
+    color: #d6b676;
 }
-
 #workspaces button#sway-workspace-1.focused {
-    border-bottom: 1px solid #89b482;
+    color: #1e2122;
+    /* background-color: #89b482; */
+    background-image: radial-gradient(circle, #f0f1f4, #cee2ee, #a3d5db, #87c7b5, #89b482);
 }
 #workspaces button#sway-workspace-2.focused {
-    border-bottom: 1px solid #d6b676;
+    color: #1e2122;
+    /* background-color: #ec6b64; */
+    background-image: radial-gradient(circle, #f0f1f4, #dfd4f1, #e7b1da, #f38aa9, #ec6b64);
 }
 #workspaces button#sway-workspace-3.focused {
-    border-bottom: 1px solid #6f8faf;
+    color: #1e2122;
+    /* background-color: #6f8faf; */
+    background-image: radial-gradient(circle, #f0f1f4, #d2d7e3, #b2bed1, #92a6c0, #6f8faf);
 }
 #workspaces button#sway-workspace-4.focused {
-    border-bottom: 1px solid #cc7f94;
+    color: #1e2122;
+    /* background-color: #cc7f94; */
+    background-image: radial-gradient(circle, #fef9ef, #fdf3df, #fdeecf, #fbe8c0, #fae3b0);
 }
 #workspaces button#sway-workspace-5.focused {
-    border-bottom: 1px solid #ec6b64;
+    color: #1e2122;
+    /* background-color: #d6b676; */
+    background-image: radial-gradient(circle, #f0f1f4, #e1e3f6, #d7d3f5, #d3c1f2, #d5aeea);
 }
 
 
@@ -88,15 +124,24 @@ tooltip label {
  * ==========================================================================*/
 #custom-seperator{
     font-family: 'Font Awesome 6 Free Solid';
-    font-size: 16px;
+    font-size: 14px;
     color: #5a5d5e;
     margin: 0 0 0 14px;
 }
+
 #window{
-    font-size: 14px;
-    color: #c7b89d;
-    padding: 0 2px 0 2px;
+    font-size: 12px;
+    color: #d2d7e3;
+    background-image: linear-gradient(to right, #404344, #434647, #47494a, #4a4d4e, #4e5051, #4e5051, #4e5051, #4e5051, #4a4d4e, #47494a, #434647, #404344);
+    padding: 0 10px 0 10px;
     margin: 0 0 0 10px;
+    border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+#waybar.empty #window{
+    opacity: 0;
 }
 
 
@@ -107,11 +152,21 @@ tooltip label {
  * 
  * ==========================================================================*/
 #idle_inhibitor {
-    font-family: 'Font Awesome 6 Free Solid';
-    font-size: 13px;
-    color: #e78a4e;
+    font-family: 'Material Design Icons';
+    font-size: 14px;
+    color: #1e2122;
+    background-image: radial-gradient(circle, #f0f1f4, #d7d9de, #bfc2c9, #a7abb4, #9095a0);
     padding: 0 10px 0 10px;
-    margin: 0 10px 0 0;
+    border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+    margin-right: 10px;
+}
+
+#idle_inhibitor.activated {
+    padding: 0 10px 0 10px;
+    margin-right: 10px;
 }
 
 
@@ -122,70 +177,67 @@ tooltip label {
  * 
  * ==========================================================================*/
  #pulseaudio.sink-icon{
-    font-family: 'Font Awesome 6 Free Solid';
-    font-size: 12px;
-    color: #89b482;
-    background-color: #2b2e2f;
-    padding: 0 10px 0 10px;
-    border-bottom: 1px solid #89b482;
+    font-family: 'Material Design Icons';
+    font-size: 14px;
+    color: #1e2122;
+    background-image: linear-gradient(to right, #89b482, #a0c39b, #b7d2b3);
+    padding: 0 4px 0 10px;
+    border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
 }
 #pulseaudio.source-icon{
-    margin: 0 15px 0 0;
+    font-size: 14px;
+    border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
 }
 #pulseaudio.sink{
-    font-size: 13px;
-    color: #c7b89d;
-    background-color: #2b2e2f;
-    padding: 0 10px 0 5px;
-    border-bottom: 1px solid #89b482;
-}
-#pulseaudio.sink.muted, #pulseaudio.sink-icon.muted {
+    font-size: 11px;
     color: #1e2122;
-    background-color: #ec6b64;
-    border-bottom: 0px;
+    border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+    background-image: linear-gradient(to right, #b7d2b3, #cfe1cd, #e7f0e6);
+    padding: 0 10px 0 4px;
 }
 #pulseaudio.sink-icon.muted {
-    padding: 0 10px 0 10px
+    background-image: linear-gradient(to right, #ec6b64, #ed736d, #ee7c76, #ef847e, #f08c87, #f29691);
 }
-#pulseaudio.sink.muted {
-    padding: 0 10px 0 0;
-}
+#pulseaudio.sink.muted{
+    background-image: linear-gradient(to right, #f29691, #f4a09c, #f5aaa6, #f7b8b5, #f9c5c3, #fad3d2, #fbe1e0);}
 #pulseaudio.source-icon.source-muted{
     color: #1e2122;
-    padding: 0 10px 0 10px;
-    background-color: #ec6b64;
-    border-bottom: 0px;
+    margin-left: 5px;
+    padding: 0 11px 0 10px;
+    background-image: radial-gradient(circle, #f3a6a2, #f39b97, #f2908b, #f18580, #ef7a74, #e8726c, #e16b64, #da635c, #cd5d56, #bf5651, #b2504b, #a54a46);
 }
 
 
 
 /* ============================================================================
  *  
- *  CPU & MEMORY
+ *  MEMORY
  * 
  * ==========================================================================*/
- #custom-cpu-icon{
-    font-family: 'Font Awesome 6 Free Solid';
-    font-size: 14px;
+#memory.icon{
+    font-family: 'Material Design Icons';
+    font-size: 15px;
     color: #1e2122;
-    background-color: #cc7f94;
-    padding: 0 8px 0 8px;
-    border-bottom: 1px solid #cc7f94;
-}
-#custom-memory-icon{
-    font-family: 'Font Awesome 6 Free Solid';
-    font-size: 14px;
-    color: #cc7f94;
+    background-image: linear-gradient(to right, #e7f0e6, #e0e7d4);
     padding: 0 0 0 10px;
-    border-bottom: 1px solid #cc7f94;
+    border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+    border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+    margin-left: 10px;
 }
-#cpu,
 #memory{
-    font-size: 13px;
-    color:#c7b89d;
+    font-size: 11px;
     padding: 0 10px 0 7px;
-    margin: 0 15px 0 0;
-    border-bottom: 1px solid #cc7f94;
+    color: #1e2122;
+    background-image: linear-gradient(to right,#e0e7d4, #dedcc2, #e0cfb2, #e4c2a5);
+    border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
 }
 
 
@@ -195,36 +247,41 @@ tooltip label {
  *  NETWORK
  * 
  * ==========================================================================*/
+ #network.icon{
+    font-family: 'Material Design Icons';
+    font-size: 12px;
+    color: #1e2122;
+    background-image: linear-gradient(to right, #e4c2a5, #f0c7bc, #f3cfd2, #efd9e4, #ece4ef);
+    padding: 0 8px 0 8px;
+    margin-right: 0;
+    margin-left: 10px;
+    border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+    border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+ #network{
+    font-size: 11px;
+    color: #1e2122;
+    background-image: linear-gradient(to right, #ece4ef, #e9e2ee, #e5e0ed, #e1deec, #dbcee2, #d9bed5, #d9adc3, #d89cac);
+    padding: 1px 10px 0 0;
+    border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+    margin-right: 10px;
+    margin-left: 0;
+}
 
-#network.icon{
-    font-family: 'Material Design Icons';
-    font-size: 15px;
-    color: #2b2e2f;
-    background-color: #89b482;
-    padding: 0 8px 0 8px;
-}
-#custom-network-icon{
-    font-family: 'Material Design Icons';
-    font-size: 15px;
-    color: #2b2e2f;
-    background-color: #89b482;
-    padding: 0 8px 0 8px;
-}
-#network{
-    font-size: 13px;
-    color: #89b482;
-    background-color: #2b2e2f;
-    padding: 0 10px 0 10px;
-    margin: 0 0 0 0;
-    border-bottom: 1px solid #89b482;
+#network.icon.disabled {
+    background-image: linear-gradient(to right, #ec6b64, #ed736d, #ee7c76, #ef847e);
 }
 #network.disabled {
-    color:#ec6b64;
+    background-image: linear-gradient(to right,  #ef847e, #f08c87, #f29691, #f4a09c, #f5aaa6, #f7b8b5, #f9c5c3);
+}
+#network.icon.disconnected {
+    background-image: linear-gradient(to right, #ec6b64, #ed736d, #ee7c76, #ef847e);
 }
 #network.disconnected {
-    color: #1e2122;
-    border-bottom: 0px;
-    background-color: #ec6b64;
+    background-image: linear-gradient(to right,  #ef847e, #f08c87, #f29691, #f4a09c, #f5aaa6, #f7b8b5, #f9c5c3);
 }
 
 
@@ -234,24 +291,47 @@ tooltip label {
  *  DATE & TIME
  * 
  * ==========================================================================*/
-#custom-clock-time-icon,
-#custom-clock-date-icon{
-    font-family: 'Font Awesome 6 Free Solid';
-    font-size: 15px;
+#clock.time-icon{
+    font-family: 'Material Design Icons';
+    font-size: 14px;
     color: #1e2122;
-    background-color: #6080a0;
-    padding: 0 8px 0 8px;
-}
-#custom-clock-date-icon{
-    font-size: 13px;
-    padding: 0 12px 0 12px;
+    background-image: linear-gradient(to right, #cc95c0, #df9cb2, #e8a6a8, #e8b4a2, #e4c2a5);
+    padding: 0 4px 0 8px;
+    border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+    border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+    
 }
 #clock{
-    font-size: 13px;
+    font-size: 12px;
     color: #1e2122;
-    background-color: #6f8faf; 
-    padding: 0 10px 0 6px;
+    background-image: linear-gradient(to right, #e8b4a2,#c3cba4, #b0ceae,#c3cba4, #d5c7a1);
+    padding: 0 10px 0 4px;
+    border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+
 }
+#clock.date-icon{
+    font-family: 'Font Awesome 6 Free Solid';
+    font-size: 12px;
+    color: #1e2122;
+    background-image: linear-gradient(to right, #d5c7a1, #e4c2a5, #e8b4a2);
+    padding: 0 4px 0 8px;
+    border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+#clock.date{
+    font-size: 12px;
+    color: #1e2122;
+    background-image: linear-gradient(to right, #e8b4a2, #e4c2a5, #d5c7a1, #c3cba4, #b0ceae, #8dc8b6, #70bec4, #68b2d0);
+    padding: 0 10px 0 4px;
+    border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
 
 
 /* ============================================================================
@@ -261,7 +341,7 @@ tooltip label {
  * ==========================================================================*/
 #battery {
     font-family: 'Font Awesome 6 Free Solid';
-    font-size: 14px;
+    font-size: 12px;
     color: #c7b89d;
     padding: 0 10px 0 10px;
     margin: 0 10px 0 0;

@@ -202,7 +202,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 # Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
 
-# $HOME/.local/bin/fetch
+fetch
 
 #if ! pgrep -u "$USER" ssh-agent > /dev/null; then
 #    ssh-agent -t 1h > "$XDG_RUNTIME_DIR/ssh-agent.env"
