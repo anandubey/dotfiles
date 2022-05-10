@@ -2,18 +2,18 @@
     "layer": "top",
     "position": "top",
     "height": 18,
+    "margin-top": 4,
+    "margin-left": 4,
+    "margin-right": 4,
 
     "modules-left": [
-        "sway/workspaces",
-        "sway/window"
+        "river/tags"
     ],
 
     "modules-center": [],
 
     "modules-right": [
-        "idle_inhibitor",
         "pulseaudio#sink-icon", "pulseaudio#sink", "pulseaudio#source-icon",
-        "battery",
         "memory#icon", "memory",
         "network#icon", "network",
         "clock#time-icon", "clock",
@@ -21,7 +21,12 @@
     ],
     
 
-
+    "river/tags": {
+        "num-tags": 5,
+        "tag-labels": [
+            "󰆥", "󰈹", "󰨞", "󰉋", "󰇮"
+           ]
+    },
     "sway/workspaces": {
         "disable-scroll": false,
         "all-outputs": false,

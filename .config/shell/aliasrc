@@ -39,8 +39,6 @@ alias ros="okular Documents/eBooks/CSE-Core/OS\ Concepts\ Galvin.pdf > /dev/null
 alias vim="nvim"
 alias v="nvim"
 alias sv="sudo nvim"
-alias nv="nvim"
-alias snv="sudo nvim"
 alias gxx="g++ -Wall -std=c++17"
 alias gxr="g++ -std=c++17 -O3 -DNDEBUG -s"
 
